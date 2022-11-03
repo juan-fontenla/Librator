@@ -7,7 +7,7 @@ class AgapeaSpider(Spider):
     name = 'agapea'
     books = []
     allowed_domains = ['agapea.com']
-    start_urls = 'https://www.agapea.com/'
+    start_urls = ['https://www.agapea.com']
 
     custom_settings = {
         'FEED_EXPORT_ENCODING': 'utf-8',
@@ -43,7 +43,7 @@ class AgapeaSpider(Spider):
     def parse_category(self, response) :
         for url in response.css('.nav-list > li > a::attr(href)').extract():
             yield SplashRequest(
-                self.start_requests[0] + url, callback = self.parse_subcategory, endpoint='execute',
+                self.start_urls[0] + url, callback = self.parse_subCategory, endpoint='execute',
                 args={'wait': 2.5, 'lua_source': self.script}
             )
 
@@ -51,55 +51,59 @@ class AgapeaSpider(Spider):
         
         for url in response.css('.botbot::attr(href)').extract():
             yield SplashRequest(
-                response.url + url, callback = self.parse_book, endpoint='execute',
-                args={'wait': 2.5, 'lua_source': self.script, 'books': []}
+                self.start_urls[0] + url, callback = self.parse_book, endpoint='execute',
+                args={'wait': 0.5, 'lua_source': self.script},
+                meta= {'books': []}
             )
 
         for url in response.css('.span4 >ul> li > a::attr(href)').extract():
             yield SplashRequest(
-                response.url + url, callback = self.parse_book, endpoint='execute',
-                args={'wait': 2.5, 'lua_source': self.script, 'books': []}
+                self.start_urls[0] + url, callback = self.parse_book, endpoint='execute',
+                args={'wait': 0.5, 'lua_source': self.script},
+                meta= {'books': []}
             )
 
     def parse_book(self, response):
-        if("p10i.htm" in response.url):
+        print(response.url)
+        if("p10i.htm" not in response.url):
             for url in response.css('.span4 >ul> li > a::attr(href)').extract():
                 yield SplashRequest(
-                    response.url + url, callback = self.parse_book, endpoint='execute',
-                    args={'wait': 2.5, 'lua_source': self.script, 'books': []}
+                    self.start_urls[0] + url, callback = self.parse_book, endpoint='execute',
+                    args={'wait': 0.5, 'lua_source': self.script},
+                    meta = {'books': []}
                 )
-
-            books_links = response.css('.info > h4 >a::attr(href)')
+            books_links = response.css('.info > h4 >a::attr(href)').extract()
             for url in response.css('.nav-list > li > a::attr(href)').extract():
                 yield SplashRequest(
                     self.start_urls[0]+ url, callback = self.parse_book, endpoint='execute',
-                    args={'wait': 2.5, 'lua_source': self.script, 'books': response.books.append(books_links)}
+                    args={'wait': 0.5, 'lua_source': self.script},
+                    meta = {'books': response.meta["books"].append(books_links)}
                 )
 
             for url in response.css('.pull-right >ul > li > a::attr(href)').extract():
                 yield SplashRequest(
                     self.start_urls[0]+ url, callback = self.parse_book, endpoint='execute',
-                    args={'wait': 2.5, 'lua_source': self.script, 'books': response.books.append(books_links) }
-                )    
+                    args={'wait': 0.5, 'lua_source': self.script},
+                    meta = {'books': response.meta["books"].append(books_links)}
+                )   
 
-        for book in response.books:
-            yield SplashRequest(
-                self.start_urls[0] + book, callback = self.parse_book, endpoint='execute',
-                args={'wait': 2.5, 'lua_source': self.script}
-            )    
+        for books in response.meta["books"]:
+            for book in books:
+                yield SplashRequest(
+                    self.start_urls[0] + book, callback = self.parse_item, endpoint='execute',
+                    args={'wait': 0.5, 'lua_source': self.script}
+                )    
 
     def  parse_item(self, response) :
         info = response.css('title::text').get().split(' - ')
-        yield {
-            'Title': info[0],
-            'Category': self.parse_name(','.join(response.css('.tematica > a ::text').getall())),
-            'Price': response.css('.precio > strong::text').get(),
-            'Link': response.url,
-            'Summary': self.parse_text(' '.join(response.css('#resumen >p::text ').getall())),
-            'Author': info[1],
-            'Editorial': response.css('tr > td::text').getall()[0],
-            'ISBN': info[2]
-        }
-
-
-
+        if(len(info) >= 3):
+            yield {
+                'Title': info[0],
+                'Category': response.css('.breadcrumb > li >a ::text').getall(),
+                'Price': response.css('.precio > strong::text').get(),
+                'Link': response.url,
+                'Summary': self.parse_text(' '.join(response.css('#resumen >p::text ').getall())),
+                'Author': info[1],
+                'Editorial': response.css('tr > td::text').getall()[0],
+                'ISBN': info[2]
+            }
