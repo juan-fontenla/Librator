@@ -13,6 +13,11 @@ BOT_NAME = 'scrappers'
 SPIDER_MODULES = ['scrappers.spiders']
 NEWSPIDER_MODULE = 'scrappers.spiders'
 
+# Splash Server Endpoint
+SPLASH_URL = 'http://localhost:8050'
+
+# Define the Splash DupeFilter
+DUPEFILTER_CLASS = 'scrapy_splash.SplashAwareDupeFilter'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 USER_AGENT = 'UDC FIC MUEI RIWS' + str(time.time() * 1000)
@@ -49,6 +54,7 @@ COOKIES_ENABLED = False
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 SPIDER_MIDDLEWARES = {
     'scrappers.middlewares.scrappersSpiderMiddleware': 543,
+
     'scrapy_splash.SplashDeduplicateArgsMiddleware': 100,
 }
 
@@ -72,6 +78,16 @@ DOWNLOADER_MIDDLEWARES = {
 ITEM_PIPELINES = {
     'scrappers.pipelines.scrappersPipeline': 300,
 }
+
+
+ELASTICSEARCH_SERVERS = 'http://localhost:9200'
+ELASTICSEARCH_INDEX = 'books'
+#ELASTICSEARCH_TYPE = 'book'
+ELASTICSEARCH_UNIQ_KEY = 'ISBN'
+ELASTICSEARCH_BUFFER_LENGTH = 10
+#ELASTICSEARCH_USERNAME = 'librator'
+#ELASTICSEARCH_PASSWORD = 'librator'
+#ELASTICSEARCH_AUTH = 'Basic'
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
