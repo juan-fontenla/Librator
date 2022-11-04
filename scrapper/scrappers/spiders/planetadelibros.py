@@ -1,7 +1,6 @@
-import scrapy
 from scrapy.linkextractors import LinkExtractor
 from scrapy.spiders import CrawlSpider, Rule
-
+from scrappers.items import BookItem
 
 class PlanetadelibrosSpider(CrawlSpider):
     name = 'planetadelibros'
@@ -31,6 +30,9 @@ class PlanetadelibrosSpider(CrawlSpider):
         if (price is None):
             price = response.css('.preu_format::text').get()
 
+        if (price is not None):
+            price = float(price.strip().replace('€', '').replace(',', '.'))
+
         editorial = response.css('.segell-nom > a::text').get()
         author = response.css('.autor-info > .nom ::text').get()
         if (author is None):
@@ -41,14 +43,14 @@ class PlanetadelibrosSpider(CrawlSpider):
         if (isbn is None):
             isbn = response.xpath(
                 '//span[@itemprop="ean13"]/text()').extract_first()
-
-        yield {
-            'Title': self.parse_name(response.css('.titol > h1 ::text').get()),
-            'Category': self.parse_name(','.join(response.css('.tematica > a ::text').getall())),
-            'Price': price,
-            'Link': response.url,
-            'Summary': self.parse_text(' '.join(response.css('.sinopsi > p ::text').getall())),
-            'Author': author,
-            'Editorial': editorial,
-            'ISBN': isbn
-        }
+        item = BookItem()
+        item['title'] = self.parse_name(response.css('.titol > h1 ::text').get())
+        item['category'] = response.css('.tematica > a ::text').getall()
+        item['price'] = price
+        item['link'] = response.url
+        item['summary'] = self.parse_text(' '.join(response.css('.sinopsi > p ::text').getall()))
+        item['author'] = author
+        item['editorial'] = editorial
+        item['isbn'] = isbn
+        item['source'] = 'planetadelibros'
+        yield item

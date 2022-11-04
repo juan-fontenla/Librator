@@ -1,9 +1,10 @@
 
-from scrapy.linkextractors import LinkExtractor
-from scrapy.spiders import Spider, CrawlSpider, Rule
 from scrapy_splash import SplashRequest
+from scrapy.spiders import CrawlSpider
+from scrappers.items import BookItem
 
-class AgapeaSpider(Spider):
+
+class AgapeaSpider(CrawlSpider):
     name = 'agapea'
     books = []
     allowed_domains = ['agapea.com']
@@ -94,16 +95,25 @@ class AgapeaSpider(Spider):
                     args={'wait': 0.5, 'lua_source': self.script}
                 )    
 
-    def  parse_item(self, response) :
+    def parse_item(self, response) :
         info = response.css('title::text').get().split(' - ')
+
+        price = response.css('.precio > strong::text').get()
+        if (price is not None):
+            price = float(price.strip().replace('€', '').replace(',', '.'))
+
         if(len(info) >= 3):
-            yield {
-                'Title': info[0],
-                'Category': response.css('.breadcrumb > li >a ::text').getall(),
-                'Price': response.css('.precio > strong::text').get(),
-                'Link': response.url,
-                'Summary': self.parse_text(' '.join(response.css('#resumen >p::text ').getall())),
-                'Author': info[1],
-                'Editorial': response.css('tr > td::text').getall()[0],
-                'ISBN': info[2]
-            }
+            item = BookItem()
+            item['title'] = info[0]
+            item['category'] = response.css('.breadcrumb > li >a ::text').getall(),
+            item['price'] = price,
+            item['link'] = response.url
+            item['summary'] = self.parse_text(' '.join(response.css('#resumen >p::text ').getall())),
+            item['author'] = info[1],
+            item['editorial'] = response.css('tr > td::text').getall()[0],
+            item['isbn'] = info[2]
+            item['source'] = 'agapea'
+            yield item
+
+
+

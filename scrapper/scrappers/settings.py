@@ -33,7 +33,7 @@ SPLASH_URL = 'http://localhost:8050/'
 # Configure a delay for requests for the same website (default: 0)
 # See https://docs.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-DOWNLOAD_DELAY = 3
+DOWNLOAD_DELAY = 1
 # The download delay setting will honor only one of:
 #CONCURRENT_REQUESTS_PER_DOMAIN = 16
 #CONCURRENT_REQUESTS_PER_IP = 16
@@ -81,10 +81,10 @@ ITEM_PIPELINES = {
 
 
 ELASTICSEARCH_SERVERS = 'http://localhost:9200'
-ELASTICSEARCH_INDEX = 'books'
+ELASTICSEARCH_INDEX_PREFIX = 'books-'
 #ELASTICSEARCH_TYPE = 'book'
-ELASTICSEARCH_UNIQ_KEY = 'ISBN'
-ELASTICSEARCH_BUFFER_LENGTH = 10
+ELASTICSEARCH_UNIQ_KEY = 'isbn'
+ELASTICSEARCH_BUFFER_LENGTH = 1
 #ELASTICSEARCH_USERNAME = 'librator'
 #ELASTICSEARCH_PASSWORD = 'librator'
 #ELASTICSEARCH_AUTH = 'Basic'

@@ -8,11 +8,13 @@ from scrapy.item import Item, Field
 
 class BookItem(Item):
     # define the fields for your item here like:
-    Title = Field()
-    Category = Field()
-    Price = Field()
-    Stock = Field()
-    Link = Field()
-    Summary = Field()
-    Author = Field()
-    ISBN = Field()
+    title = Field()
+    category = Field()
+    editorial = Field()
+    price = Field()
+    stock = Field()
+    link = Field()
+    summary = Field()
+    author = Field()
+    isbn = Field()
+    source = Field()

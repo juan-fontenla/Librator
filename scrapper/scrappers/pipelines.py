@@ -42,7 +42,7 @@ class ElasticSearchPipeline(object):
             if settings[setting_key] is None:
                 raise InvalidSettingsException('%s is not defined in settings.py' % setting_key)
 
-        required_settings = {'ELASTICSEARCH_INDEX'}
+        required_settings = {'ELASTICSEARCH_INDEX_PREFIX'}
 
         for required_setting in required_settings:
             validate_setting(required_setting)
@@ -128,7 +128,7 @@ class ElasticSearchPipeline(object):
 
     def index_item(self, item):
 
-        index_name = self.settings['ELASTICSEARCH_INDEX']
+        index_name = self.settings['ELASTICSEARCH_INDEX_PREFIX'] + item['source']
         index_suffix_format = self.settings.get('ELASTICSEARCH_INDEX_DATE_FORMAT', None)
         index_suffix_key = self.settings.get('ELASTICSEARCH_INDEX_DATE_KEY', None)
         index_suffix_key_format = self.settings.get('ELASTICSEARCH_INDEX_DATE_KEY_FORMAT', None)
@@ -171,7 +171,7 @@ class ElasticSearchPipeline(object):
                 self.process_item(each, spider)
         else:
             self.index_item(item)
-            logging.debug('Item sent to Elastic Search %s' % self.settings['ELASTICSEARCH_INDEX'])
+            logging.debug('Item sent to Elastic Search %s' % self.settings['ELASTICSEARCH_INDEX_PREFIX'])
             return item
 
     def close_spider(self, spider):
