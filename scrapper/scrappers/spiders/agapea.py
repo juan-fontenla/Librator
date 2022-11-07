@@ -108,7 +108,7 @@ class AgapeaSpider(CrawlSpider):
             item['category'] = response.css('.breadcrumb > li >a ::text').getall(),
             item['price'] = price,
             item['link'] = response.url
-            item['summary'] = self.parse_text(' '.join(response.css('#resumen >p::text ').getall())),
+            item['summary'] = self.parse_text(' '.join(response.css('#resumen ::text').getall())),
             item['author'] = info[1],
             item['editorial'] = response.css('tr > td::text').getall()[0],
             item['isbn'] = info[2]
