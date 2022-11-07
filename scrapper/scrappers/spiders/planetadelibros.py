@@ -1,6 +1,7 @@
 from scrapy.linkextractors import LinkExtractor
 from scrapy.spiders import CrawlSpider, Rule
 from scrappers.items import BookItem
+from scrapy_splash import SplashRequest
 
 class PlanetadelibrosSpider(CrawlSpider):
     name = 'planetadelibros'
@@ -10,13 +11,45 @@ class PlanetadelibrosSpider(CrawlSpider):
     custom_settings = {
         'FEED_EXPORT_ENCODING': 'utf-8',
     }
+    
+    script = """
+        function main(splash, args)
+        assert(splash:go(args.url))
+        assert(splash:wait(1))
+        return splash:html()
+        end
+    """
+    def start_requests(self):
+        for url in self.start_urls:
+            yield SplashRequest(
+                url, callback = self.parse_category, endpoint='execute',
+                args={'wait': 1, 'lua_source': self.script}
+            )
 
-    rules = (
-        Rule(LinkExtractor(restrict_css='.resultat-cercador > .llibres-miniatures > li > a'),
-             callback='parse_item', follow=False),
-        Rule(LinkExtractor(restrict_css='.paginacio-seguent > a'), follow=True),
-        Rule(LinkExtractor(restrict_css='.tematiques > a'), follow=True),
-    )
+    def parse_category(self, response):
+        for url in response.css('.tematiques > a::attr(href)').extract():
+            yield SplashRequest(
+                url, callback = self.parse_book, endpoint='execute',
+                args={'wait': 1, 'lua_source': self.script},
+                meta= {'books': []}
+            )
+
+    def parse_book(self, response):
+        if(response.css('.paginacio-numeros >span::text').get() != 10):
+            books_links = response.css('.resultat-cercador > .llibres-miniatures > li > a::attr(href)').extract()
+            for url in response.css('.paginacio-seguent > a').extract():
+                yield SplashRequest(
+                    url, callback = self.parse_book, endpoint='execute',
+                    args={'wait': 0.5, 'lua_source': self.script},
+                    meta = {'books': response.meta["books"].append(books_links)}
+                )
+
+        for books in response.meta["books"]:
+            for book in books:
+                yield SplashRequest(
+                    book, callback = self.parse_item, endpoint='execute',
+                    args={'wait': 0.5, 'lua_source': self.script}
+                )    
 
     def parse_name(self, text):
         return '' if text is None else text.lstrip().rstrip().replace('\n', '')
