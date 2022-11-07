@@ -14,6 +14,7 @@ class BookItem(Item):
     price = Field()
     stock = Field()
     link = Field()
+    photo = Field()
     summary = Field()
     author = Field()
     isbn = Field()
