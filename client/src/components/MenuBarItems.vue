@@ -19,23 +19,6 @@
         </v-list-item>
       </v-list>
     </v-menu>
-    <v-menu offset-y transition="slide-y-transition" class="dropdown-content">
-      <template v-slot:activator="{ on }">
-        <v-btn text v-on="on" :class="{ 'button-on-collapse': collapsed }" tile>
-          {{ $t("menu.lists") }}
-          <v-icon>arrow_drop_down</v-icon>
-        </v-btn>
-      </template>
-      <v-list>
-        <v-list-item :to="{ name: 'Book List' }">
-          <v-list-item-content>
-            <v-list-item-title>{{
-              $t("t_book.headers.bookList")
-            }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-    </v-menu>
   </v-container>
 </template>
 

@@ -21,34 +21,6 @@
           <v-list-item-title>{{ $t("languages.gl") }}</v-list-item-title>
         </v-list-item>
       </v-list-group>
-
-      <v-list-group no-action>
-        <template v-slot:activator>
-          <v-list-item-icon>
-            <v-icon>list</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>{{ $t("menu.lists") }}</v-list-item-title>
-          </v-list-item-content>
-        </template>
-        <v-list-item :to="{ name: 'Book List' }">
-          <v-list-item-content>
-            <v-list-item-title>{{
-              $t("t_book.headers.bookList")
-            }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list-group>
-      <v-list-group no-action>
-        <template v-slot:activator>
-          <v-list-item-icon>
-            <v-icon>category</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>{{ $t("menu.components") }}</v-list-item-title>
-          </v-list-item-content>
-        </template>
-      </v-list-group>
     </v-list>
   </v-navigation-drawer>
 </template>
