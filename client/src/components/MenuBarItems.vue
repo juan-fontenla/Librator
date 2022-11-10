@@ -36,14 +36,6 @@
         </v-list-item>
       </v-list>
     </v-menu>
-    <v-menu offset-y transition="slide-y-transition" class="dropdown-content">
-      <template v-slot:activator="{ on }">
-        <v-btn text v-on="on" :class="{ 'button-on-collapse': collapsed }">
-          {{ $t("menu.components") }}
-          <v-icon>arrow_drop_down</v-icon>
-        </v-btn>
-      </template>
-    </v-menu>
   </v-container>
 </template>
 
