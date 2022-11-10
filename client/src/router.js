@@ -17,14 +17,6 @@ const routes = [
     },
   },
   {
-    path: "/map-viewer/:id?",
-    name: "MapViewer",
-    meta: {
-      label: "menu.mapViewer",
-    },
-    component: MapViewer,
-  },
-  {
     path: "/about",
     name: "about",
     meta: {

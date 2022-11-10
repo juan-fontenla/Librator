@@ -43,13 +43,6 @@
           <v-icon>arrow_drop_down</v-icon>
         </v-btn>
       </template>
-      <v-list>
-        <v-list-item :to="{ name: 'MapViewer', params: { id: 'default' } }">
-          <v-list-item-title>
-            {{ $t("menu.mapViewer") }}
-          </v-list-item-title>
-        </v-list-item>
-      </v-list>
     </v-menu>
   </v-container>
 </template>

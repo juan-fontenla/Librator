@@ -48,14 +48,6 @@
             <v-list-item-title>{{ $t("menu.components") }}</v-list-item-title>
           </v-list-item-content>
         </template>
-        <v-list-item :to="{ name: 'MapViewer', params: { id: 'default' } }">
-          <v-list-item-icon>
-            <v-icon>mdi-map</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            {{ $t("menu.mapViewer") }}
-          </v-list-item-content>
-        </v-list-item>
       </v-list-group>
     </v-list>
   </v-navigation-drawer>
