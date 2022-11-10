@@ -134,7 +134,7 @@
 import DebouncedTextField from "@/components/debouncing-inputs/DebouncedTextField.vue";
 
 import NumberField from "@/components/number-field/NumberField.vue";
-
+import response from "@/common/mock-response";
 import defaultPaginationSettings from "@/common/default-pagination-settings";
 import {
   generateSort,
@@ -157,6 +157,7 @@ export default {
   },
   data() {
     return {
+      mockData: response,
       items: [],
       showFilters: false,
       sourceProperty: sourceProperty,

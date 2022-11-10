@@ -1,0 +1,332 @@
+{
+  "took": 2,
+  "timed_out": false,
+  "_shards": {
+      "total": 2,
+      "successful": 2,
+      "skipped": 0,
+      "failed": 0
+  },
+  "hits": {
+      "total": {
+          "value": 11,
+          "relation": "eq"
+      },
+      "max_score": 6.6643963,
+      "hits": [
+          {
+              "_index": "books-planetadelibros",
+              "_id": "54191362275c7c348787314eac4104b654db9577",
+              "_score": 6.6643963,
+              "_ignored": [
+                  "summary.keyword"
+              ],
+              "_source": {
+                  "title": "Calendario Animal family 2021",
+                  "category": [
+                      "Calendarios"
+                  ],
+                  "price": 5.95,
+                  "link": "https://www.planetadelibros.com/libro-calendario-animal-family-2021/318422",
+                  "photo": "https://planetadelibroscom.cdnstatics2.com/usuaris/libros/fotos/319/m_libros/portada_calendario-animal-family-2021_aa-vv_202006221145.jpg",
+                  "summary": "Cuando te gustan tanto los animales, si por ti fuera los tendrías todos. Lo sabemos. También sabemos que tener una familia de patos, de gatos o de perros en casa puede ser complicado. Por eso, en este calendario hemos reunido 12 fotos con las familias más entrañables del mundo animal. ¿Por qué conformarte con una mascota, cuando puedes tener a la familia entera?",
+                  "author": "Libros Cúpula",
+                  "editorial": "Libros Cúpula",
+                  "isbn": "978-84-480-2764-3",
+                  "source": "planetadelibros"
+              }
+          },
+          {
+              "_index": "books-planetadelibros",
+              "_id": "8f5c5083bf21351b772b635e9a3f2ca83b6c01da",
+              "_score": 6.03563,
+              "_ignored": [
+                  "summary.keyword"
+              ],
+              "_source": {
+                  "title": "Calendario Perritos y Gatitos 2023",
+                  "category": [
+                      "Calendarios"
+                  ],
+                  "price": 12.95,
+                  "link": "https://www.planetadelibros.com/libro-calendario-perritos-y-gatitos-2023/355277",
+                  "photo": "https://planetadelibroscom.cdnstatics2.com/usuaris/libros/fotos/356/m_libros/portada_calendario-perritos-y-gatitos-2023_aa-vv_202205171230.jpg",
+                  "summary": "Los calendarios que tienen a las mascotas como protagonistas son un clásico. A la hora de escoger mascota parece que solo hay dos equipos, los amantes de los gatos y los amantes de los perros, pero no es así. Existe una parte de la población que siente debilidad por los dos animalitos, por eso en este calendario se ha realizado una cuidadosa selección de imágenes que incluyen las fotos más entrañables. Calendario de pared en gran formato con espacio para apuntar todo lo que necesites y con los festivos nacionales incluidos.",
+                  "author": "Libros Cúpula",
+                  "editorial": "Libros Cúpula",
+                  "isbn": "978-84-480-2980-7",
+                  "source": "planetadelibros"
+              }
+          },
+          {
+              "_index": "books-agapea",
+              "_id": "728c958d0af70164a624281a7b3232b11066e47c",
+              "_score": 5.8627024,
+              "_ignored": [
+                  "summary.keyword"
+              ],
+              "_source": {
+                  "title": "ONCOLOGIA CANINA Y FELINA",
+                  "category": [
+                      [
+                          "Libros ",
+                          "Libros de Ciencias Técnicas",
+                          "Veterinaria",
+                          "Libros de Patología Veterinaria"
+                      ]
+                  ],
+                  "price": [
+                      61.75
+                  ],
+                  "link": "https://www.agapea.com/Guillermo-C-Couto/Oncologia-canina-y-felina-9788492569267-i.htm",
+                  "photo": "https://cdn.agapea.com/Editorial-Servet/Oncologia-canina-y-felina-i1n9698626.jpg",
+                  "summary": [
+                      "Esta obra profundiza tanto en los conocimientos básicos como en los últimos avances de esta enfermedad, y los expone de manera didáctica y accesible. El libro también ofrece un capítulo sobre las neoplasias específicas más frecuentes en la clínica diaria, sus protocolos y tratamientos recomendados, así como diversos casos clínicos reales donde el lector podrá evaluar sus conocimientos sobre la materia. Adicionalmente, se incorpora una relación de los protocolos quimioterápicos que más se emplean en perros y gatos."
+                  ],
+                  "author": [
+                      "GUILLERMO C. COUTO; NESTOR MORENO CASANOVA"
+                  ],
+                  "editorial": [
+                      "Editorial Servet"
+                  ],
+                  "isbn": "9788492569267",
+                  "source": "agapea"
+              }
+          },
+          {
+              "_index": "books-agapea",
+              "_id": "2f834e1433782ad6df3676897a9bb75bfb5caae1",
+              "_score": 5.8627024,
+              "_ignored": [
+                  "summary.keyword"
+              ],
+              "_source": {
+                  "title": "PATOLOGIAS ORTOPEDICAS DE LA RODILLA",
+                  "category": [
+                      [
+                          "Libros ",
+                          "Libros de Ciencias Técnicas",
+                          "Veterinaria",
+                          "Otros libros de Veterinaria"
+                      ]
+                  ],
+                  "price": [
+                      18.05
+                  ],
+                  "link": "https://www.agapea.com/S-Climent-Peris/Patologias-ortopedicas-de-la-rodilla-9788416818266-i.htm",
+                  "photo": "https://cdn.agapea.com/Editorial-Servet/Patologias-ortopedicas-de-la-rodilla-i1n13821914.jpg",
+                  "summary": [
+                      "Obra dedicada a las principales patologías ortopédicas de la rodilla en perros y gatos para que el lector pueda establecer una pauta de conducta en el diagnóstico diferencial y determinar qué tratamiento es el correcto, basándose en los propuestos, para los diferentes problemas que desde el punto de vista clínico son más habituales en la rodilla. El libro contiene numerosas imágenes y dibujos, algunos de ellos con representación tridimensional, así como enlaces a vídeos de pruebas exploratorias."
+                  ],
+                  "author": [
+                      "S. CLIMENT PERIS; JESUS USON GARGALLO; JOSE LUIS ... [ET AL.] VEREZ-FRAGUELA; ROBERTO KOSTLIN"
+                  ],
+                  "editorial": [
+                      "Editorial Servet"
+                  ],
+                  "isbn": "9788416818266",
+                  "source": "agapea"
+              }
+          },
+          {
+              "_index": "books-agapea",
+              "_id": "4df763ad45a42219a4e2dd5b48483a1af07238cc",
+              "_score": 5.479652,
+              "_ignored": [
+                  "summary.keyword"
+              ],
+              "_source": {
+                  "title": "REPRODUCCION Y NEONATOLOGIA CANINA Y FELINA",
+                  "category": [
+                      [
+                          "Libros ",
+                          "Libros de Ciencias Técnicas",
+                          "Veterinaria",
+                          "Libros de Medicina Interna"
+                      ]
+                  ],
+                  "price": [
+                      61.75
+                  ],
+                  "link": "https://www.agapea.com/libros/Reproduccion-y-neonatologia-canina-y-felina-9788492569458-i.htm",
+                  "photo": "https://cdn.agapea.com/Editorial-Servet/Reproduccion-y-neonatologia-canina-y-felina-i1n5935527.jpg",
+                  "summary": [
+                      "Esta obra es un manual práctico para la consulta de reproducción de la clínica diaria. En él se recogen todos los aspectos de la reproducción en perros y gatos, desde la fisiología de cada especie, pasando por las principales patologías en ambos sexos, hasta los tratamientos farmacológicos y quirúrgicos indicados en cada caso. Además de esto, en este manual se tiene en cuenta el papel del propietario en la presentación y evolución de los casos y también incluye recomendaciones y consejos para el veterinario, con el objetivo de que su quehacer y resultados en la consulta de reproducción sean los mejores posibles."
+                  ],
+                  "author": [
+                      "SIMON MARTI ANGULO"
+                  ],
+                  "editorial": [
+                      "Editorial Servet"
+                  ],
+                  "isbn": "9788492569458",
+                  "source": "agapea"
+              }
+          },
+          {
+              "_index": "books-agapea",
+              "_id": "5a261e61247d9f033287878d44f163104b297aab",
+              "_score": 5.479652,
+              "_ignored": [
+                  "summary.keyword"
+              ],
+              "_source": {
+                  "title": "EL APARATO DIGESTIVO. CASOS CLINICOS. CIRUGIA EN LA CLINICA DE PEQUEÑOS ANIMALES",
+                  "category": [
+                      [
+                          "Libros ",
+                          "Libros de Ciencias Técnicas",
+                          "Veterinaria",
+                          "Libros de Cirugía"
+                      ]
+                  ],
+                  "price": [
+                      78.85
+                  ],
+                  "link": "https://www.agapea.com/Jose-Rodriguez-Gomez/El-aparato-digestivo-CASOS-CLiNICOS-Cirugia-en-la-clinica-de-pequenos-animales-9788416315321-i.htm",
+                  "photo": "https://cdn.agapea.com/Editorial-Servet/El-aparato-digestivo-CASOS-CLiNICOS-Cirugia-en-la-clinica-de-pequenos-animales-i1n13454803.jpg",
+                  "summary": [
+                      "Este nuevo manual de cirugía se centra en el tracto gastrointestinal en pequeños animales. Gracias a su enfoque didáctico, con más de 30 casos clínicos descritos al detalle, el veterinario podrá entender mejor cómo llevar a cabo las cirugías gastrointestinales en perros y gatos. Se incluyen tanto casos sencillos como casos de mayor complejidad, lo que permite abarcar un gran número de situaciones a las que el veterinario puede enfrentarse en la clínica. En cada caso clínico, los autores describen la anamnesis, la exploración física del paciente, la preparación y técnica de la cirugía, así como consideraciones adicionales y otros aspectos de interés."
+                  ],
+                  "author": [
+                      "JOSE RODRIGUEZ GOMEZ; RODOLFO ... [ET AL.] BRUHL DAY; MARIA ELENA MARTINEZ; PABLO MEYER"
+                  ],
+                  "editorial": [
+                      "Editorial Servet"
+                  ],
+                  "isbn": "9788416315321",
+                  "source": "agapea"
+              }
+          },
+          {
+              "_index": "books-agapea",
+              "_id": "aa57bb01200d60787590d0acc4efa41a18e4f0d9",
+              "_score": 5.0812593,
+              "_ignored": [
+                  "summary.keyword"
+              ],
+              "_source": {
+                  "title": "DIAGNOSTICO DE LA ALOPECIA EN PERROS Y GATOS",
+                  "category": [
+                      [
+                          "Libros ",
+                          "Libros de Ciencias Técnicas",
+                          "Veterinaria",
+                          "Libros de Dermatología"
+                      ]
+                  ],
+                  "price": [
+                      76.0
+                  ],
+                  "link": "https://www.agapea.com/Ana-Maria-Rios-Boeta/Diagnostico-de-la-alopecia-en-perros-y-gatos-9788416315406-i.htm",
+                  "photo": "https://cdn.agapea.com/Editorial-Servet/Diagnostico-de-la-alopecia-en-perros-y-gatos-i1n13271002.jpg",
+                  "summary": [
+                      "Esta dolencia en los animales de compañía es un motivo frecuente de consulta por parte de los propietarios. Como todos los procesos que afectan a la piel, la pérdida de pelo suele ser muy llamativa y crea cierto malestar en los propietarios, no solo por cuestiones estéticas, sino por lo que puede implicar en el estado sanitario de su perro o gato. Este libro pretende ser una guía lo más visual posible de cómo llevar a cabo el diagnóstico de la alopecia en perros y gatos, de forma ordenada y metódica, según sus patrones de distribución y lesiones. La gran carga de imágenes, diagramas, esquemas, tablas y dibujos, junto con una descripción clara y práctica, ayudarán a extraerle el máximo partido posible en la consulta dermatológica diaria."
+                  ],
+                  "author": [
+                      "ANA MARIA RIOS BOETA"
+                  ],
+                  "editorial": [
+                      "Editorial Servet"
+                  ],
+                  "isbn": "9788416315406",
+                  "source": "agapea"
+              }
+          },
+          {
+              "_index": "books-agapea",
+              "_id": "cdac5c405f68455a634fd50cc98bb9063cf74ba5",
+              "_score": 5.0812593,
+              "_ignored": [
+                  "summary.keyword"
+              ],
+              "_source": {
+                  "title": "PRIMEROS AUXILIOS EN PERROS Y GATOS",
+                  "category": [
+                      [
+                          "Libros ",
+                          "Libros de Ciencias Técnicas",
+                          "Veterinaria",
+                          "Libros de Medicina Interna"
+                      ]
+                  ],
+                  "price": [
+                      47.5
+                  ],
+                  "link": "https://www.agapea.com/Enrique-Ynaraja-Ramirez/Primeros-auxilios-en-perros-y-gatos-9788492569878-i.htm",
+                  "photo": "https://cdn.agapea.com/Editorial-Servet/Primeros-auxilios-en-perros-y-gatos-i1n7854635.jpg",
+                  "summary": [
+                      "Este libro proporciona toda la información que pueden requerir la atención de urgencias y la aplicación de primeros auxilios en perros y gatos. Un manual que permitirá estar preparados y saber como actuar ante cualquier accidente o urgencia y cómo prestarles ayuda a los animales de compañía hasta que puedan ser transportados a la clínica veterinaria. Contiene numerosas imágenes y dibujos explicativos. Introducción Concepto de primeros auxilios Objetivos de los primeros auxilios - Botiquín de urgencias. - Procedimientos de urgencia. - Hemorragias. - Heridas y contusiones. - Traumatizados: atropellos y caídas. - Quemaduras. - Urgencias digestivas: vómitos y diarrea. - Golpe de calor. - Síncopes y desmayos. - Convulsiones. - Ingestión de medicamentos de forma incontrolada. - Picaduras y mordeduras de animales. - Procesionarias. - Reanimación cardiopulmonar y soporte vital básico. Parada respiratoria y parada cardiaca."
+                  ],
+                  "author": [
+                      "ENRIQUE YNARAJA RAMIREZ"
+                  ],
+                  "editorial": [
+                      "Editorial Servet"
+                  ],
+                  "isbn": "9788492569878",
+                  "source": "agapea"
+              }
+          },
+          {
+              "_index": "books-planetadelibros",
+              "_id": "0128901fd8649ae58f655770cb2759bed3d4d3b1",
+              "_score": 4.9649396,
+              "_ignored": [
+                  "summary.keyword"
+              ],
+              "_source": {
+                  "title": "Cómo enseñarle los clásicos a tu perro",
+                  "category": [
+                      "Filosofía",
+                      "Filosofía antigua",
+                      "Filosofía",
+                      "Introducción a la filosofía"
+                  ],
+                  "price": 18.9,
+                  "link": "https://www.planetadelibros.com/libro-como-ensenarle-los-clasicos-a-tu-perro/357952",
+                  "photo": "https://planetadelibroscom.cdnstatics2.com/usuaris/libros/fotos/358/m_libros/portada_como-ensenarle-los-clasicos-a-tu-perro_philip-womack_202209050948.jpg",
+                  "summary": "Debió de haber sido un hermoso momento entre un hombre y su perra, pero Philip Womack hizo una broma acerca de Cerbero, el sabueso tricéfalo del infierno, y a Una, su querida lurcher, todo eso le sonó a chino… o a griego. Acto seguido se lanzó a perseguir una ardilla y y Womack se quedó preguntándose qué más desconocía Una sobre las grandes civilizaciones del pasado.  Los griegos y los romanos suponen los cimientos de gran parte de lo que leemos, escuchamos y vemos en la actualidad, desde los pasteles horneados de  Juego de Tronos  hasta los lotófagos del  reality show   Love Island  (La Isla del Amor). En esta singular introducción del mundo clásico, Womack nos guía, junto con Una, por una rauda odisea:  aprenderás a distinguir a Odiseo de Edipo, a Políxena de Polidoro… y luego podrás enseñárselo a tu perro, aunque quizá la historia de los perros de caza que despedazaron a su amo es preferible dejarla para otro día.",
+                  "author": "Ediciones Paidós",
+                  "editorial": "Ediciones Paidós",
+                  "isbn": "978-84-493-4005-5",
+                  "source": "planetadelibros"
+              }
+          },
+          {
+              "_index": "books-agapea",
+              "_id": "546bb0d65ceab2e2c7e517a5372dcfc872529967",
+              "_score": 4.84636,
+              "_ignored": [
+                  "summary.keyword"
+              ],
+              "_source": {
+                  "title": "PINTAR ANIMALES A LA ACUARELA EN 5 PASOS",
+                  "category": [
+                      [
+                          "Libros ",
+                          "Libros de Tiempo Libre",
+                          "Libros de Pintura"
+                      ]
+                  ],
+                  "price": [
+                      17.1
+                  ],
+                  "link": "https://www.agapea.com/Nelli-Andrejew/Pintar-animales-a-la-acuarela-en-5-pasos-9788498746907-i.htm",
+                  "photo": "https://cdn.agapea.com/Editorial-El-Drac-S-L-/Pintar-animales-a-la-acuarela-en-5-pasos-i1n20943951.jpg",
+                  "summary": [
+                      "Pinta los animales más adorables Aprende a pintar 50 proyectos paso a paso de los animales más encantadores: roedores, erizos, perros, gatos y muchos otros. Ideal para principiantes. Los fundamentos de la acuarela explicados con sencillez, para disfrutar pintando. Infinitas posibilidades para crear láminas y tarjetas, ilustrar diarios creativos o dot journal y pasarlo muy bien. En acuarela, los colores cambian constantemente. Esto es lo que hace que esta técnica sea, por un lado, muy relajante y, por otro, increíblemente emocionante. Prepárate para una experiencia maravillosa. Este libro muestra cómo pintar tus propios animalitos, así como las técnicas básicas de la pintura con acuarela. Ve probando paso a paso y, si te apetece, personaliza los motivos eligiendo diferentes colores o expresiones. Cada vez tendrás más confianza y descubrirás poco a poco qué es lo más te gusta."
+                  ],
+                  "author": [
+                      "NELLI ANDREJEW"
+                  ],
+                  "editorial": [
+                      "Editorial El Drac, S.L."
+                  ],
+                  "isbn": "9788498746907",
+                  "source": "agapea"
+              }
+          }
+      ]
+  }
+}
