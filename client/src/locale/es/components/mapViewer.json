@@ -1,0 +1,40 @@
+{
+  "mapViewer": {
+    "mapViewer": "Visor de Mapa",
+    "cancel": "Cancelar",
+    "close": "Cerrar",
+    "downloadFormat": "Formato de descarga",
+    "export": "Exportar",
+    "exportManager": "Gestor de exportaciones",
+    "listLayerElements": "Listar elementos de la capa",
+    "margin": "Margen",
+    "portrait": "Retrato",
+    "scale": "Escala",
+    "searchInMap": "Buscar en el mapa...",
+    "urlToShare": "URL para compartir",
+    "wmsDetail": {
+      "title": "WMS DETALLE",
+      "layers": "Capas",
+      "layer-items": "Elementos de la capa",
+      "layer-item-detail": "Detalle del elemento",
+      "no-data": "No hay datos",
+      "no-property-data": "Sin datos",
+      "form-tooltip": "Ir al formulario de detalle del elemento"
+    },
+    "routeCompletationError": "Por favor, completa o cancela la ruta antes de continuar",
+    "chooseEntity": "Escoja la entidad que desea listar",
+    "mustSelectAnExportOption": "Debe escoger al menos uno de los formatos de exportación",
+    "map": "Mapa",
+    "layer-label": {
+      "OpenStreetMap-Mapnik": "OpenStreetMap.Mapnik",
+      "OpenStreetMap-BlackAndWhite": "OpenStreetMap.BlackAndWhite",
+      "Esri-WorldStreetMap": "Esri.WorldStreetMap",
+      "Stamen-Terrain": "Stamen.Terrain",
+      "Stamen-TonerLite": "Stamen.TonerLite"
+    },
+    "style-legend-label": {},
+    "map-label": {
+      "default": "Mapa por defecto"
+    }
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "t_book": {
+    "name": "Book",
+    "prop": {
+      "id": "id",
+      "isbn": "isbn",
+      "title": "title",
+      "category": "category",
+      "editorial": "editorial",
+      "price": "price",
+      "stock": "stock",
+      "link": "link",
+      "photo": "photo",
+      "summary": "summary",
+      "author": "author",
+      "source": "source"
+    },
+    "messages": {
+      "create.success": "Book creado.",
+      "update.success": "Book actualizado.",
+      "delete.success": "Book eliminado."
+    },
+    "error": {
+      "id-exists": "Un novo book non pode ter un id",
+      "id-not-exists": "Actualizando book sen id",
+      "form-errors": "Este book non se pode gardar debido a erros no formulario."
+    },
+    "headers": {
+      "bookList": "Book List",
+      "bookFormDetail": "Book Form Detail",
+      "bookForm": "Book Form"
+    }
+  }
+}

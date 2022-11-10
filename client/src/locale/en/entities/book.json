@@ -1,0 +1,34 @@
+{
+  "t_book": {
+    "name": "Book",
+    "prop": {
+      "id": "id",
+      "isbn": "isbn",
+      "title": "title",
+      "category": "category",
+      "editorial": "editorial",
+      "price": "price",
+      "stock": "stock",
+      "link": "link",
+      "photo": "photo",
+      "summary": "summary",
+      "author": "author",
+      "source": "source"
+    },
+    "messages": {
+      "create.success": "Book created.",
+      "update.success": "Book updated.",
+      "delete.success": "Book deleted."
+    },
+    "error": {
+      "id-exists": "A new book cannot already have a id",
+      "id-not-exists": "Updating a book without a id",
+      "form-errors": "This book cannot be saved due to form errors."
+    },
+    "headers": {
+      "bookList": "Book List",
+      "bookFormDetail": "Book Form Detail",
+      "bookForm": "Book Form"
+    }
+  }
+}

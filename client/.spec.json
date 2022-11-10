@@ -1,0 +1,304 @@
+{
+  "features": [
+    "GEMA_SPL",
+    "DataManagement",
+    "GraphicalUserInterface",
+    "MapViewer",
+    "Tools",
+    "DM_SpatialDatabase",
+    "DM_GenerationType",
+    "DM_DataServer",
+    "MV_MapServer",
+    "MV_Tools",
+    "MV_MapManagement",
+    "DM_SD_PostGIS",
+    "MV_T_Pan",
+    "MV_T_Zoom",
+    "DM_GT_Sequence",
+    "GUI_Menu",
+    "GUI_M_Position",
+    "GUI_M_Top",
+    "GUI_Forms",
+    "GUI_Lists",
+    "GUI_L_Filterable",
+    "GUI_L_Sortable",
+    "GUI_L_F_RowFilter",
+    "GUI_L_FormLink",
+    "GUI_L_Export",
+    "MV_GeoJSON",
+    "MV_MM_UniqueMapViewer",
+    "MV_MapCenter",
+    "MV_MC_Coordinates",
+    "T_GIS",
+    "T_EntitiesInformation"
+  ],
+  "data": {
+    "basicData": {
+      "index": {
+        "component": "STATIC",
+        "view": "welcome"
+      },
+      "languages": ["en", "es", "gl"],
+      "name": "Librator",
+      "packageInfo": {
+        "artifact": "librator",
+        "group": "es.udc.lbd.gisspl"
+      },
+      "database": {},
+      "extra": {},
+      "SRID": "4326",
+      "version": "1.0"
+    },
+    "dataModel": {
+      "enums": [
+        {
+          "name": "Source",
+          "values": ["planetadelibros", "agapea"]
+        }
+      ],
+      "entities": [
+        {
+          "name": "Book",
+          "properties": [
+            {
+              "name": "id",
+              "class": "Long (autoinc)",
+              "pk": true,
+              "required": true,
+              "unique": true
+            },
+            {
+              "name": "isbn",
+              "class": "String",
+              "required": true,
+              "unique": false
+            },
+            {
+              "name": "title",
+              "class": "String"
+            },
+            {
+              "name": "category",
+              "class": "String"
+            },
+            {
+              "name": "editorial",
+              "class": "String"
+            },
+            {
+              "name": "price",
+              "class": "Double",
+              "patternType": null,
+              "pattern": null
+            },
+            {
+              "name": "stock",
+              "class": "Boolean",
+              "patternType": null,
+              "pattern": null,
+              "min": null,
+              "max": null
+            },
+            {
+              "name": "link",
+              "class": "String"
+            },
+            {
+              "name": "photo",
+              "class": "String"
+            },
+            {
+              "name": "summary",
+              "class": "Text"
+            },
+            {
+              "name": "author",
+              "class": "String"
+            },
+            {
+              "name": "source",
+              "class": "Source",
+              "patternType": null,
+              "pattern": null,
+              "min": null,
+              "max": null
+            }
+          ],
+          "displayString": "$id"
+        }
+      ]
+    },
+    "forms": [
+      {
+        "id": "Book Form",
+        "properties": [
+          {
+            "property": "id",
+            "viewing": false,
+            "editing": false
+          },
+          {
+            "property": "isbn",
+            "viewing": true,
+            "editing": true
+          },
+          {
+            "property": "title",
+            "viewing": true,
+            "editing": true
+          },
+          {
+            "property": "category",
+            "viewing": true,
+            "editing": true
+          },
+          {
+            "property": "editorial",
+            "viewing": true,
+            "editing": true
+          },
+          {
+            "property": "price",
+            "viewing": true,
+            "editing": true
+          },
+          {
+            "property": "stock",
+            "viewing": true,
+            "editing": true
+          },
+          {
+            "property": "link",
+            "viewing": true,
+            "editing": true
+          },
+          {
+            "property": "photo",
+            "viewing": true,
+            "editing": true
+          },
+          {
+            "property": "summary",
+            "viewing": true,
+            "editing": true
+          },
+          {
+            "property": "author",
+            "viewing": true,
+            "editing": true
+          },
+          {
+            "property": "source",
+            "viewing": true,
+            "editing": true
+          }
+        ],
+        "entity": "Book",
+        "creatable": false,
+        "editable": false,
+        "removable": false,
+        "confirmation": false
+      }
+    ],
+    "gui": {
+      "settings": {
+        "font": {
+          "family": "Arial",
+          "size": "14px"
+        },
+        "colorset": ["#fff", "#eee", "#777", "#555", "#577492", "#333", "#222"],
+        "header": {
+          "type": "Text",
+          "text": "Librator"
+        }
+      },
+      "design": "1"
+    },
+    "lists": [
+      {
+        "id": "Book List",
+        "properties": [
+          {
+            "property": "isbn"
+          },
+          {
+            "property": "title"
+          },
+          {
+            "property": "category"
+          },
+          {
+            "property": "editorial"
+          },
+          {
+            "property": "photo"
+          },
+          {
+            "property": "author"
+          },
+          {
+            "property": "source"
+          },
+          {
+            "property": "price"
+          }
+        ],
+        "entity": "Book",
+        "form": "Book Form",
+        "removeLink": false,
+        "sorting": true,
+        "searching": false,
+        "filtering": true
+      }
+    ],
+    "menus": [
+      {
+        "id": "top",
+        "elements": [
+          {
+            "id": "Lists",
+            "type": "MENU",
+            "elements": [
+              {
+                "id": "Book List",
+                "type": "VIEW",
+                "view": {
+                  "component": "LIST",
+                  "view": "Book List"
+                }
+              }
+            ],
+            "access": {
+              "admin": true,
+              "logged": true
+            }
+          },
+          {
+            "id": "Components",
+            "type": "MENU",
+            "elements": [
+              {
+                "id": "Map viewer",
+                "type": "VIEW",
+                "view": {
+                  "component": "MAP",
+                  "view": "mapViewer"
+                }
+              }
+            ],
+            "access": {
+              "admin": true,
+              "logged": true
+            }
+          }
+        ]
+      }
+    ],
+    "mapViewer": {
+      "maps": [],
+      "layers": [],
+      "styles": []
+    },
+    "statics": []
+  }
+}
