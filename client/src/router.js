@@ -9,14 +9,6 @@ Vue.use(Router);
 
 const routes = [
   {
-    path: "/",
-    name: "Home",
-    component: Home,
-    meta: {
-      label: "menu.home",
-    },
-  },
-  {
     path: "/about",
     name: "about",
     meta: {

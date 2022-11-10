@@ -4,7 +4,7 @@ import bookFormDetail from "./components/bookFormDetail";
 
 const routes = [
   {
-    path: "/book-list",
+    path: "/",
     name: "Book List",
     component: bookListList,
     meta: {
