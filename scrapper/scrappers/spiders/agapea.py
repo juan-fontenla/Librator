@@ -65,8 +65,7 @@ class AgapeaSpider(CrawlSpider):
             )
 
     def parse_book(self, response):
-        print(response.url)
-        if("p10i.htm" not in response.url):
+        if("p5i.htm" not in response.url):
             for url in response.css('.span4 >ul> li > a::attr(href)').extract():
                 yield SplashRequest(
                     self.start_urls[0] + url, callback = self.parse_book, endpoint='execute',

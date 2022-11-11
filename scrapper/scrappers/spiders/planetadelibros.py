@@ -35,22 +35,35 @@ class PlanetadelibrosSpider(CrawlSpider):
             )
 
     def parse_book(self, response):
-        if(response.css('.paginacio-numeros >span::text').get() != 10):
-            print(response.css('.paginacio-seguent > a::attr(href)').extract())
+        print(response.css('.paginacio-numeros >span::text').get())
+        try:
+            page = response.css('.paginacio-numeros >span::text').get()
+            if(page is None):
+                page = 0
+            else:
+                page = int(page)
+        except ValueError:
+            page = 0
+        
+        if( page <= 5):
             books_links = response.css('.resultat-cercador > .llibres-miniatures > li > a::attr(href)').extract()
             for url in response.css('.paginacio-seguent > a::attr(href)').extract():
+                if (response.meta["books"] is not None):
+                    response.meta["books"].append(books_links)
+                else:
+                    response.meta["books"] = []
                 yield SplashRequest(
                     url, callback = self.parse_book, endpoint='execute',
                     args={'wait': 0.5, 'lua_source': self.script},
-                    meta = {'books': response.meta["books"].append(books_links)}
+                    meta = {'books': response.meta["books"]}
                 )
-
-        for books in response.meta["books"]:
-            for book in books:
-                yield SplashRequest(
-                    book, callback = self.parse_item, endpoint='execute',
-                    args={'wait': 0.5, 'lua_source': self.script}
-                )    
+        else:
+            for books in response.meta["books"]:
+                for book in books:
+                    yield SplashRequest(
+                        book, callback = self.parse_item, endpoint='execute',
+                        args={'wait': 0.5, 'lua_source': self.script}
+                    )    
 
     def parse_name(self, text):
         return '' if text is None else text.lstrip().rstrip().replace('\n', '')
