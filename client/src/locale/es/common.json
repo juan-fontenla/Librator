@@ -108,6 +108,10 @@
     "delete_dialog": "<p>Esta acción es permanente. <b>¿Desea continuar?</b></p>",
     "delete_title": "Eliminar elemento"
   },
+  "no-data": {
+    "no-results": "Sin resultados para esta búsqueda.",
+    "placeholder": "Escriba en la barra de búsqueda para encontrar libros"
+  },
   "notLogged": "sin autenticar",
   "badRequestError": "Hay errores en la petición enviada",
   "psql": {

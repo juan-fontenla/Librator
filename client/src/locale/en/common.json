@@ -108,6 +108,10 @@
     "delete_dialog": "<p>This action will be permanent. <b>Do you want to continue?</b></p>",
     "delete_title": "Remove element"
   },
+  "no-data": {
+    "no-results": "No results found.",
+    "placeholder": "Start typing on search bar to find books"
+  },
   "notLogged": "not logged",
   "badRequestError": "There are errors in the request sent",
   "psql": {
