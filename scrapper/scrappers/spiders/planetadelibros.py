@@ -36,8 +36,9 @@ class PlanetadelibrosSpider(CrawlSpider):
 
     def parse_book(self, response):
         if(response.css('.paginacio-numeros >span::text').get() != 10):
+            print(response.css('.paginacio-seguent > a::attr(href)').extract())
             books_links = response.css('.resultat-cercador > .llibres-miniatures > li > a::attr(href)').extract()
-            for url in response.css('.paginacio-seguent > a').extract():
+            for url in response.css('.paginacio-seguent > a::attr(href)').extract():
                 yield SplashRequest(
                     url, callback = self.parse_book, endpoint='execute',
                     args={'wait': 0.5, 'lua_source': self.script},
