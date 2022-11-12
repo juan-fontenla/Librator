@@ -45,7 +45,8 @@
       </v-col>
       <v-col cols="12" md="4">
         <v-range-slider
-          v-model="priceFilter"
+          :value="[minPriceFilter, maxPriceFilter]"
+          @change="updateRange"
           max="1000"
           hide-details
           class="align-center"
@@ -53,24 +54,24 @@
         >
           <template v-slot:prepend>
             <v-text-field
-              :value="priceFilter[0]"
+              :value="minPriceFilter"
               class="mt-0 pt-0"
               hide-details
               single-line
               type="number"
               style="width: 60px"
-              @change="$set(priceFilter, 0, $event)"
+              @change="$set(minPriceFilter, 0, $event)"
             ></v-text-field>
           </template>
           <template v-slot:append>
             <v-text-field
-              :value="priceFilter[1]"
+              :value="maxPriceFilter"
               class="mt-0 pt-0"
               hide-details
               single-line
               type="number"
               style="width: 60px"
-              @change="$set(priceFilter, 1, $event)"
+              @change="$set(maxPriceFilter, 1, $event)"
             ></v-text-field>
           </template>
         </v-range-slider>
@@ -156,7 +157,8 @@ export default {
       photoFilter: null,
       authorFilter: null,
       sourceFilter: null,
-      priceFilter: [0, 1000],
+      minPriceFilter: 0,
+      maxPriceFilter: 1000,
       entitiesPage: {
         page:
           parseInt(this.$route.query.page) || defaultPaginationSettings.page,
@@ -173,79 +175,21 @@ export default {
   },
   computed: {
     anySearch() {
-      return this.categoryFilter || this.sourceFilter || this.priceFilter;
+      return (
+        this.categoryFilter ||
+        this.sourceFilter ||
+        (this.minPriceFilter != 0 && this.maxPriceFilter != 1000)
+      );
     },
     mockData() {
       return response.hits.hits.map((el) => el._source);
-    },
-    headers() {
-      return [
-        {
-          text: this.$t("t_book.prop.isbn"),
-          value: "isbn",
-        },
-        {
-          text: this.$t("t_book.prop.title"),
-          value: "title",
-        },
-        {
-          text: this.$t("t_book.prop.category"),
-          value: "category",
-        },
-        {
-          text: this.$t("t_book.prop.editorial"),
-          value: "editorial",
-        },
-        {
-          text: this.$t("t_book.prop.photo"),
-          value: "photo",
-        },
-        {
-          text: this.$t("t_book.prop.author"),
-          value: "author",
-        },
-        {
-          text: this.$t("t_book.prop.source"),
-          value: "source",
-        },
-        {
-          text: this.$t("t_book.prop.price"),
-          value: "price",
-        },
-        { text: "", sortable: false, value: "action" },
-      ];
     },
     filters() {
       let filters = "";
       filters =
         filters +
-        (this.isbnFilter != null && this.isbnFilter !== ""
-          ? "isbn:" + this.isbnFilter.toString() + ","
-          : "");
-      filters =
-        filters +
         (this.titleFilter != null && this.titleFilter !== ""
           ? "title:" + this.titleFilter.toString() + ","
-          : "");
-      filters =
-        filters +
-        (this.categoryFilter != null && this.categoryFilter !== ""
-          ? "category:" + this.categoryFilter.toString() + ","
-          : "");
-      filters =
-        filters +
-        (this.editorialFilter != null && this.editorialFilter !== ""
-          ? "editorial:" + this.editorialFilter.toString() + ","
-          : "");
-      filters =
-        filters +
-        (this.photoFilter != null && this.photoFilter !== ""
-          ? "photo:" + this.photoFilter.toString() + ","
-          : "");
-      filters =
-        filters +
-        (this.authorFilter != null && this.authorFilter !== ""
-          ? "author:" + this.authorFilter.toString() + ","
           : "");
       filters =
         filters +
@@ -254,8 +198,13 @@ export default {
           : "");
       filters =
         filters +
-        (this.priceFilter != null && this.priceFilter !== ""
-          ? "price:" + this.priceFilter.toString() + ","
+        (this.minPriceFilter != null && this.minPriceFilter !== ""
+          ? "minPrice:" + this.minPriceFilter.toString() + ","
+          : "");
+      filters =
+        filters +
+        (this.maxPriceFilter != null && this.maxPriceFilter !== ""
+          ? "maxPrice:" + this.maxPriceFilter.toString() + ","
           : "");
       return filters !== "" ? filters : null;
     },
@@ -266,44 +215,33 @@ export default {
     },
   },
   created() {
-    if (this.$route.query.isbnFilter) {
-      this.showFilters = true;
-      this.isbnFilter = this.$route.query.isbnFilter;
-    }
     if (this.$route.query.titleFilter) {
       this.showFilters = true;
       this.titleFilter = this.$route.query.titleFilter;
-    }
-    if (this.$route.query.categoryFilter) {
-      this.showFilters = true;
-      this.categoryFilter = this.$route.query.categoryFilter;
-    }
-    if (this.$route.query.editorialFilter) {
-      this.showFilters = true;
-      this.editorialFilter = this.$route.query.editorialFilter;
-    }
-    if (this.$route.query.photoFilter) {
-      this.showFilters = true;
-      this.photoFilter = this.$route.query.photoFilter;
-    }
-    if (this.$route.query.authorFilter) {
-      this.showFilters = true;
-      this.authorFilter = this.$route.query.authorFilter;
     }
     if (this.$route.query.sourceFilter) {
       this.showFilters = true;
       this.sourceFilter = this.$route.query.sourceFilter;
     }
-    if (this.$route.query.priceFilter) {
+    if (this.$route.query.minPriceFilter) {
       this.showFilters = true;
-      let value = parseFloat(this.$route.query.priceFilter);
-      this.priceFilter = isNaN(value) ? null : value;
+      let value = parseFloat(this.$route.query.minPriceFilter);
+      this.minPriceFilter = isNaN(value) ? null : value;
+    }
+    if (this.$route.query.maxPriceFilter) {
+      this.showFilters = true;
+      let value = parseFloat(this.$route.query.maxPriceFilter);
+      this.maxPriceFilter = isNaN(value) ? null : value;
     }
     this.getItems();
   },
   methods: {
     parseBookTitle(title) {
       return lowerCaseAllWordsExceptFirstLetters(title);
+    },
+    updateRange([minPrice, maxPrice]) {
+      this.minPriceFilter = minPrice;
+      this.maxPriceFilter = maxPrice;
     },
     getItems() {
       this.loading = true;
@@ -364,8 +302,10 @@ export default {
         this.authorFilter != null ? this.authorFilter : undefined;
       query.sourceFilter =
         this.sourceFilter != null ? this.sourceFilter : undefined;
-      query.priceFilter =
-        this.priceFilter != null ? this.priceFilter : undefined;
+      query.minPriceFilter =
+        this.minPriceFilter != null ? this.minPriceFilter : undefined;
+      query.maxPriceFilter =
+        this.maxPriceFilter != null ? this.maxPriceFilter : undefined;
     },
     redirectOnFilterChange() {
       if (this.entitiesPage.page !== 1) {
@@ -375,9 +315,6 @@ export default {
       }
     },
     displayManyRelationship,
-    reportRequest() {
-      reportRequestFn(BookEntityRepository, "Book");
-    },
   },
 };
 </script>
