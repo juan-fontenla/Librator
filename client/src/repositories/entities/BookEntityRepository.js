@@ -5,32 +5,20 @@ const logger = Logger.get("logger");
 const RESOURCE_NAME = "entities/books";
 
 export default {
-  async getReport() {
+  async getAll(query = null) {
     try {
-      return (
-        await HTTP.get(`${RESOURCE_NAME}/report`, {
-          responseType: "blob",
-        })
-      ).data;
+      if (!query) {
+        query = {
+          from: 0,
+          size: 10,
+          query: {
+            match_all: {},
+          },
+        };
+      }
+      return (await HTTP.post("_search", query)).data;
     } catch (err) {
-      logger.error("Error getting report");
-      throw err;
-    }
-  },
-  async getAll(options = {}) {
-    try {
-      return (await HTTP.get(`${RESOURCE_NAME}`, options)).data;
-    } catch (err) {
-      logger.error("Error fetching all", options);
-      throw err;
-    }
-  },
-
-  async getAllWithout(entityName) {
-    try {
-      return (await HTTP.get(`${RESOURCE_NAME}/without/${entityName}`)).data;
-    } catch (err) {
-      logger.error("Error fetching all without " + entityName);
+      logger.error("Error fetching books", query);
       throw err;
     }
   },

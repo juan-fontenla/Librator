@@ -77,10 +77,10 @@
         </v-range-slider>
       </v-col>
     </v-row>
-    <v-row v-if="mockData && mockData.length > 0">
+    <v-row v-if="items && items.length > 0">
       <v-col
         class="mb-12"
-        v-for="book in mockData"
+        v-for="book in items"
         cols="12"
         md="4"
         lg="3"
@@ -94,7 +94,12 @@
           >
             <v-row>
               <v-col class="text-center">
-                <v-img height="200" contain :src="book.photo"></v-img>
+                <v-img
+                  height="200"
+                  contain
+                  :src="book.photo"
+                  :lazy-src="bookPng"
+                ></v-img>
               </v-col>
             </v-row>
             <v-row>
@@ -119,6 +124,7 @@
 import DebouncedTextField from "@/components/debouncing-inputs/DebouncedTextField.vue";
 
 import response from "@/common/mock-response";
+import bookPng from "@/assets/book.png";
 import defaultPaginationSettings from "@/common/default-pagination-settings";
 import {
   generateSort,
@@ -129,7 +135,6 @@ import tableFooterProps from "@/common/table-footer-props";
 
 import sourceProperty from "@/enumerates/source";
 import displayManyRelationship from "@/common/DisplayManyRelationships";
-import reportRequestFn from "@/common/ReportRequest";
 import RepositoryFactory from "@/repositories/RepositoryFactory";
 const BookEntityRepository = RepositoryFactory.get("BookEntityRepository");
 
@@ -146,6 +151,7 @@ export default {
   },
   data() {
     return {
+      bookPng,
       items: [],
       search: null,
       showFilters: false,
@@ -245,17 +251,9 @@ export default {
     },
     getItems() {
       this.loading = true;
-      const options = {
-        params: {
-          page: this.entitiesPage.page - 1,
-          filters: this.filters,
-          sort: this.$route.query.sort,
-          size: this.entitiesPage.itemsPerPage,
-        },
-      };
-      BookEntityRepository.getAll(options)
+      BookEntityRepository.getAll()
         .then((response) => {
-          this.items = response.content;
+          this.items = response.hits.hits.map((el) => el._source);
           this.totalItems = response.totalElements;
         })
         .finally(() => (this.loading = false));
