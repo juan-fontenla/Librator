@@ -53,12 +53,16 @@
         ></debounced-text-field>
       </v-col>
       <v-col cols="12" md="4">
-        <debounced-text-field
+        <autocomplete
           dense
           hide-details
+          :items="categoryItems"
+          item-text="key"
+          item-value="key"
           v-model="categoryFilter"
           :label="$t('t_book.prop.category')"
-        ></debounced-text-field>
+          @update:search-input="getCategories"
+        ></autocomplete>
       </v-col>
       <v-col cols="12" md="4">
         <v-select
@@ -78,32 +82,30 @@
       <v-col cols="12" md="4">
         <v-range-slider
           :value="[minPriceFilter, maxPriceFilter]"
-          @change="updateRange"
-          max="1000"
-          hide-details
           class="align-center"
+          hide-details
           :label="$t('t_book.prop.price')"
+          max="700"
+          @change="updateRange"
         >
           <template v-slot:prepend>
             <v-text-field
-              :value="minPriceFilter"
+              v-model="minPriceFilter"
               class="mt-0 pt-0"
               hide-details
               single-line
               type="number"
               style="width: 60px"
-              @change="$set(minPriceFilter, 0, $event)"
             ></v-text-field>
           </template>
           <template v-slot:append>
             <v-text-field
-              :value="maxPriceFilter"
+              v-model="maxPriceFilter"
               class="mt-0 pt-0"
               hide-details
               single-line
               type="number"
               style="width: 60px"
-              @change="$set(maxPriceFilter, 1, $event)"
             ></v-text-field>
           </template>
         </v-range-slider>
@@ -147,10 +149,12 @@
           <v-col class="text-center" cols="6">
             <v-btn block :disabled="entitiesPage.page <= 1" @click="prevPage">
               <v-icon>mdi-chevron-left</v-icon>
+              {{ $t("$vuetify.pagination.ariaLabel.previous") }}
             </v-btn>
           </v-col>
           <v-col class="text-center" cols="6">
             <v-btn block :disabled="!hasNext" @click="nextPage">
+              {{ $t("$vuetify.pagination.ariaLabel.next") }}
               <v-icon>mdi-chevron-right</v-icon>
             </v-btn>
           </v-col>
@@ -166,6 +170,7 @@
 </template>
 
 <script>
+import Autocomplete from "@/components/debouncing-inputs/Autocomplete.vue";
 import DebouncedTextField from "@/components/debouncing-inputs/DebouncedTextField.vue";
 import bodyBuilder from "bodybuilder";
 import bookPng from "@/assets/book.png";
@@ -185,12 +190,14 @@ const lowerCaseAllWordsExceptFirstLetters = (string) =>
 export default {
   name: "bookListList",
   components: {
+    Autocomplete,
     DebouncedTextField,
   },
   data() {
     return {
       bookPng,
       items: [],
+      categoryItems: [],
       search: null,
       showFilters: false,
       sourceProperty: sourceProperty,
@@ -202,7 +209,7 @@ export default {
       authorFilter: null,
       sourceFilter: null,
       minPriceFilter: 0,
-      maxPriceFilter: 1000,
+      maxPriceFilter: 700,
       entitiesPage: {
         page:
           parseInt(this.$route.query.page) || defaultPaginationSettings.page,
@@ -315,6 +322,7 @@ export default {
       let value = parseFloat(this.$route.query.maxPriceFilter);
       this.maxPriceFilter = isNaN(value) ? null : value;
     }
+    this.getCategories();
     this.getItems();
   },
   methods: {
@@ -332,6 +340,19 @@ export default {
     prevPage() {
       this.entitiesPage.page--;
       this.redirectOnTableChange();
+    },
+    getCategories(search) {
+      let body = bodyBuilder().aggregation("terms", "category.keyword");
+      if (search && search.length > 0) {
+        body = body.query("match", "category", search);
+      }
+      body = body.size(0).build();
+      console.log(body);
+      BookEntityRepository.getAll(body).then(
+        (res) =>
+          (this.categoryItems =
+            res.aggregations["agg_terms_category.keyword"].buckets)
+      );
     },
     getItems() {
       this.loading = true;

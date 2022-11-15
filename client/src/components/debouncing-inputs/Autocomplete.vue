@@ -2,6 +2,7 @@
   <v-autocomplete
     v-model="inputVal"
     :dense="dense"
+    :hide-details="hideDetails"
     :items="items"
     :loading="loading"
     :search-input="searchInput"
@@ -81,6 +82,11 @@ export default {
       default: true,
     },
     dense: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    hideDetails: {
       type: Boolean,
       required: false,
       default: false,

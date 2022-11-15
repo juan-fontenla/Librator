@@ -3,17 +3,17 @@
     "name": "Book",
     "prop": {
       "id": "id",
-      "isbn": "isbn",
-      "title": "title",
-      "category": "category",
-      "editorial": "editorial",
-      "price": "price",
-      "stock": "stock",
-      "link": "link",
-      "photo": "photo",
-      "summary": "summary",
-      "author": "author",
-      "source": "source"
+      "isbn": "ISBN",
+      "title": "Título",
+      "category": "Categoría",
+      "editorial": "Editorial",
+      "price": "PrPrezoice",
+      "stock": "Stock",
+      "link": "Enlace",
+      "photo": "Foto",
+      "summary": "Resumo",
+      "author": "Autor",
+      "source": "Tenda"
     },
     "messages": {
       "create.success": "Book creado.",
