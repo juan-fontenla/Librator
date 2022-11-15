@@ -20,6 +20,38 @@
       </v-col>
     </v-row>
     <v-row align="center" v-show="showFilters" justify="space-between">
+      <v-col cols="12" md="3">
+        <debounced-text-field
+          dense
+          hide-details
+          v-model="titleFilter"
+          :label="$t('t_book.prop.title')"
+        ></debounced-text-field>
+      </v-col>
+      <v-col cols="12" md="3">
+        <debounced-text-field
+          dense
+          hide-details
+          v-model="authorFilter"
+          :label="$t('t_book.prop.author')"
+        ></debounced-text-field>
+      </v-col>
+      <v-col cols="12" md="3">
+        <debounced-text-field
+          dense
+          hide-details
+          v-model="editorialFilter"
+          :label="$t('t_book.prop.editorial')"
+        ></debounced-text-field>
+      </v-col>
+      <v-col cols="12" md="3">
+        <debounced-text-field
+          dense
+          hide-details
+          v-model="isbnFilter"
+          :label="$t('t_book.prop.isbn')"
+        ></debounced-text-field>
+      </v-col>
       <v-col cols="12" md="4">
         <debounced-text-field
           dense
@@ -113,8 +145,7 @@
     </v-row>
     <v-row v-else>
       <v-col class="text-center h4">
-        <span v-if="anySearch">{{ $t("no-data.no-results") }}</span>
-        <span v-else>{{ $t("no-data.placeholder") }}</span>
+        <span>{{ $t("no-data.no-results") }}</span>
       </v-col>
     </v-row>
   </v-container>
@@ -122,8 +153,7 @@
 
 <script>
 import DebouncedTextField from "@/components/debouncing-inputs/DebouncedTextField.vue";
-
-import response from "@/common/mock-response";
+import bodyBuilder from "bodybuilder";
 import bookPng from "@/assets/book.png";
 import defaultPaginationSettings from "@/common/default-pagination-settings";
 import {
@@ -132,9 +162,7 @@ import {
   parseStringToSortDesc,
 } from "@/common/pagination-utils";
 import tableFooterProps from "@/common/table-footer-props";
-
 import sourceProperty from "@/enumerates/source";
-import displayManyRelationship from "@/common/DisplayManyRelationships";
 import RepositoryFactory from "@/repositories/RepositoryFactory";
 const BookEntityRepository = RepositoryFactory.get("BookEntityRepository");
 
@@ -180,22 +208,37 @@ export default {
     };
   },
   computed: {
-    anySearch() {
-      return (
-        this.categoryFilter ||
-        this.sourceFilter ||
-        (this.minPriceFilter != 0 && this.maxPriceFilter != 1000)
-      );
-    },
-    mockData() {
-      return response.hits.hits.map((el) => el._source);
-    },
     filters() {
       let filters = "";
       filters =
         filters +
+        (this.search != null && this.search !== ""
+          ? "search:" + this.search.toString() + ","
+          : "");
+      filters =
+        filters +
+        (this.isbnFilter != null && this.isbnFilter !== ""
+          ? "isbn:" + this.isbnFilter.toString() + ","
+          : "");
+      filters =
+        filters +
         (this.titleFilter != null && this.titleFilter !== ""
           ? "title:" + this.titleFilter.toString() + ","
+          : "");
+      filters =
+        filters +
+        (this.categoryFilter != null && this.categoryFilter !== ""
+          ? "category:" + this.categoryFilter.toString() + ","
+          : "");
+      filters =
+        filters +
+        (this.editorialFilter != null && this.editorialFilter !== ""
+          ? "editorial:" + this.editorialFilter.toString() + ","
+          : "");
+      filters =
+        filters +
+        (this.authorFilter != null && this.authorFilter !== ""
+          ? "author:" + this.authorFilter.toString() + ","
           : "");
       filters =
         filters +
@@ -221,9 +264,29 @@ export default {
     },
   },
   created() {
+    if (this.$route.query.search) {
+      this.showFilters = true;
+      this.search = this.$route.query.search;
+    }
+    if (this.$route.query.isbnFilter) {
+      this.showFilters = true;
+      this.isbnFilter = this.$route.query.isbnFilter;
+    }
     if (this.$route.query.titleFilter) {
       this.showFilters = true;
       this.titleFilter = this.$route.query.titleFilter;
+    }
+    if (this.$route.query.categoryFilter) {
+      this.showFilters = true;
+      this.categoryFilter = this.$route.query.categoryFilter;
+    }
+    if (this.$route.query.editorialFilter) {
+      this.showFilters = true;
+      this.editorialFilter = this.$route.query.editorialFilter;
+    }
+    if (this.$route.query.authorFilter) {
+      this.showFilters = true;
+      this.authorFilter = this.$route.query.authorFilter;
     }
     if (this.$route.query.sourceFilter) {
       this.showFilters = true;
@@ -251,7 +314,8 @@ export default {
     },
     getItems() {
       this.loading = true;
-      BookEntityRepository.getAll()
+      const query = this._buildQueryFromFilters();
+      BookEntityRepository.getAll(query)
         .then((response) => {
           this.items = response.hits.hits.map((el) => el._source);
           this.totalItems = response.totalElements;
@@ -287,6 +351,7 @@ export default {
       this.redirect(query);
     },
     changeQueryFilters(query) {
+      query.search = this.search != null ? this.search : undefined;
       query.isbnFilter = this.isbnFilter != null ? this.isbnFilter : undefined;
       query.titleFilter =
         this.titleFilter != null ? this.titleFilter : undefined;
@@ -294,8 +359,6 @@ export default {
         this.categoryFilter != null ? this.categoryFilter : undefined;
       query.editorialFilter =
         this.editorialFilter != null ? this.editorialFilter : undefined;
-      query.photoFilter =
-        this.photoFilter != null ? this.photoFilter : undefined;
       query.authorFilter =
         this.authorFilter != null ? this.authorFilter : undefined;
       query.sourceFilter =
@@ -312,7 +375,57 @@ export default {
         this.redirectOnTableChange();
       }
     },
-    displayManyRelationship,
+    _buildQueryFromFilters() {
+      let body = bodyBuilder();
+      if (this.search) {
+        body.query("bool", (b) =>
+          b
+            .orQuery("match", "title", {
+              query: this.search,
+              boost: 0.75,
+            })
+            .orQuery("match", "author", {
+              query: this.search,
+              boost: 0.5,
+            })
+            .orQuery("match", "summary", {
+              query: this.search,
+              boost: 0.25,
+            })
+            .orQuery("match", "editorial", {
+              query: this.search,
+              boost: 0.5,
+            })
+            .orQuery("match", "category", { query: this.search, boost: 0.625 })
+        );
+      }
+      body.query("range", "price", {
+        gte: this.minPriceFilter,
+        lte: this.maxPriceFilter,
+      });
+      if (this.titleFilter) {
+        body.query("match", "title", { query: this.titleFilter, boost: 1.5 });
+      }
+      if (this.authorFilter) {
+        body.query("match", "author", this.authorFilter);
+      }
+      if (this.editorialFilter) {
+        body.query("match", "editorial", this.editorialFilter);
+      }
+      if (this.categoryFilter) {
+        body.query("match", "category", {
+          query: this.categoryFilter,
+          boost: 1.25,
+        });
+      }
+      if (this.isbnFilter) {
+        body.filter("term", "isbn", this.isbnFilter);
+      }
+      if (this.sourceFilter) {
+        body.filter("term", "source", this.sourceFilter);
+      }
+      return body.size(10).from(0).build();
+    },
   },
 };
 </script>
