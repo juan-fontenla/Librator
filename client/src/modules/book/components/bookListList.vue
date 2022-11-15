@@ -125,6 +125,7 @@
             :elevation="hover ? 16 : 0"
             flat
             class="{ 'on-hover': hover }"
+            @click="entityDetail(book)"
           >
             <v-row>
               <v-col class="text-center">
@@ -384,7 +385,7 @@ export default {
       if (selection.length === 0) {
         this.$router.push({
           name: "Book FormDetail",
-          params: { id: entity.id, backPrevious: true },
+          params: { isbn: entity.isbn, backPrevious: true },
         });
       }
     },

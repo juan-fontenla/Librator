@@ -12,7 +12,7 @@ const routes = [
     },
   },
   {
-    path: "/book-form/:id(\\d+)",
+    path: "/book-form/:isbn",
     name: "Book FormDetail",
     component: bookFormDetail,
     meta: {
