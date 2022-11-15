@@ -338,7 +338,12 @@ export default {
       const query = this._buildQueryFromFilters();
       BookEntityRepository.getAll(query)
         .then((response) => {
-          this.items = response.hits.hits.map((el) => el._source);
+          this.items = response.hits.hits
+            .map((el) => el._source)
+            .filter(
+              (value, index, self) =>
+                index == self.findIndex((t) => t.isbn == value.isbn)
+            );
           this.totalItems = response.hits.total.value;
         })
         .finally(() => (this.loading = false));
