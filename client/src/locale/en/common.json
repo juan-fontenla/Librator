@@ -180,5 +180,9 @@
     "button": "Go to home page",
     "route_param": "resource_not_found"
   },
+  "sort": {
+    "price": "Price",
+    "relevance": "Relevance"
+  },
   "waitingServer": "Waiting for server response..."
 }

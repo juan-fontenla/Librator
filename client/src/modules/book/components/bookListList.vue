@@ -2,11 +2,24 @@
   <v-container v-if="items">
     <v-row align="center" justify="space-between" class="mt-4">
       <v-col cols="9" class="text-center">
-        <debounced-text-field
-          dense
-          v-model="search"
-          :label="$t('search')"
-        ></debounced-text-field>
+        <v-row>
+          <v-col cols="8">
+            <debounced-text-field
+              dense
+              hide-details
+              v-model="search"
+              :label="$t('search')"
+            ></debounced-text-field>
+          </v-col>
+          <v-col cols="4">
+            <v-select
+              class="pt-0 mt-0"
+              v-model="sort"
+              :items="sortOptions"
+              hide-details
+            ></v-select>
+          </v-col>
+        </v-row>
       </v-col>
       <v-col cols="3" class="text-right">
         <v-btn color="primary" outlined @click="showFilters = !showFilters">
@@ -200,6 +213,11 @@ export default {
       items: [],
       categoryItems: [],
       search: null,
+      sort: null,
+      sortOptions: [
+        { value: null, text: this.$t("sort.relevance") },
+        { value: "price", text: this.$t("sort.price") },
+      ],
       showFilters: false,
       sourceProperty: sourceProperty,
       isbnFilter: null,
@@ -283,6 +301,9 @@ export default {
     filters() {
       this.redirectOnFilterChange();
     },
+    sort() {
+      this.redirectOnFilterChange();
+    },
   },
   created() {
     if (this.$route.query.search) {
@@ -322,6 +343,9 @@ export default {
       this.showFilters = true;
       let value = parseFloat(this.$route.query.maxPriceFilter);
       this.maxPriceFilter = isNaN(value) ? null : value;
+    }
+    if (this.$route.query.sort) {
+      this.sort = this.$route.query.sort;
     }
     this.getCategories();
     this.getItems();
@@ -393,7 +417,7 @@ export default {
       this.entitiesPage = pagination;
       let query = JSON.parse(JSON.stringify(this.$route.query));
       query.page = this.entitiesPage.page.toString();
-      query.sort = generateSort(this.entitiesPage);
+      query.sort = this.sort;
       this.changeQueryFilters(query);
       this.redirect(query);
     },
@@ -470,6 +494,9 @@ export default {
       }
       if (this.sourceFilter) {
         body.filter("term", "source", this.sourceFilter);
+      }
+      if (this.sort) {
+        body.sort(this.sort, "asc");
       }
       return body
         .size(this.entitiesPage.itemsPerPage)

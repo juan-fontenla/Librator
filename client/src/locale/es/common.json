@@ -180,5 +180,9 @@
     "button": "Ir a página principal",
     "route_param": "recurso_no_encontrado"
   },
+  "sort": {
+    "price": "Precio",
+    "relevance": "Relevancia"
+  },
   "waitingServer": "Esperando respuesta del servidor..."
 }

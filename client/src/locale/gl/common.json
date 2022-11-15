@@ -213,5 +213,9 @@
     "button": "Ir á páxina principal",
     "route_param": "recurso_non_atopado"
   },
+  "sort": {
+    "price": "Prezo",
+    "relevance": "Relevancia"
+  },
   "waitingServer": "Esperando resposta do servidor..."
 }
