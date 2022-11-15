@@ -142,6 +142,20 @@
           </v-card>
         </v-hover>
       </v-col>
+      <v-col cols="12">
+        <v-row>
+          <v-col class="text-center" cols="6">
+            <v-btn block :disabled="entitiesPage.page <= 1" @click="prevPage">
+              <v-icon>mdi-chevron-left</v-icon>
+            </v-btn>
+          </v-col>
+          <v-col class="text-center" cols="6">
+            <v-btn block :disabled="!hasNext" @click="nextPage">
+              <v-icon>mdi-chevron-right</v-icon>
+            </v-btn>
+          </v-col>
+        </v-row>
+      </v-col>
     </v-row>
     <v-row v-else>
       <v-col class="text-center h4">
@@ -156,11 +170,7 @@ import DebouncedTextField from "@/components/debouncing-inputs/DebouncedTextFiel
 import bodyBuilder from "bodybuilder";
 import bookPng from "@/assets/book.png";
 import defaultPaginationSettings from "@/common/default-pagination-settings";
-import {
-  generateSort,
-  parseStringToSortBy,
-  parseStringToSortDesc,
-} from "@/common/pagination-utils";
+import { generateSort, parseStringToSortBy } from "@/common/pagination-utils";
 import tableFooterProps from "@/common/table-footer-props";
 import sourceProperty from "@/enumerates/source";
 import RepositoryFactory from "@/repositories/RepositoryFactory";
@@ -196,11 +206,8 @@ export default {
       entitiesPage: {
         page:
           parseInt(this.$route.query.page) || defaultPaginationSettings.page,
-        itemsPerPage:
-          parseInt(this.$route.query.pageSize) ||
-          defaultPaginationSettings.itemsPerPage,
+        itemsPerPage: 16,
         sortBy: parseStringToSortBy(this.$route.query.sort),
-        sortDesc: parseStringToSortDesc(this.$route.query.sort),
       },
       totalItems: 0,
       loading: false,
@@ -208,6 +215,12 @@ export default {
     };
   },
   computed: {
+    hasNext() {
+      return (
+        this.totalItems >
+        this.entitiesPage.itemsPerPage * this.entitiesPage.page
+      );
+    },
     filters() {
       let filters = "";
       filters =
@@ -312,13 +325,21 @@ export default {
       this.minPriceFilter = minPrice;
       this.maxPriceFilter = maxPrice;
     },
+    nextPage() {
+      this.entitiesPage.page++;
+      this.redirectOnTableChange();
+    },
+    prevPage() {
+      this.entitiesPage.page--;
+      this.redirectOnTableChange();
+    },
     getItems() {
       this.loading = true;
       const query = this._buildQueryFromFilters();
       BookEntityRepository.getAll(query)
         .then((response) => {
           this.items = response.hits.hits.map((el) => el._source);
-          this.totalItems = response.totalElements;
+          this.totalItems = response.hits.total.value;
         })
         .finally(() => (this.loading = false));
     },
@@ -345,7 +366,6 @@ export default {
       this.entitiesPage = pagination;
       let query = JSON.parse(JSON.stringify(this.$route.query));
       query.page = this.entitiesPage.page.toString();
-      query.pageSize = this.entitiesPage.itemsPerPage.toString();
       query.sort = generateSort(this.entitiesPage);
       this.changeQueryFilters(query);
       this.redirect(query);
@@ -424,7 +444,10 @@ export default {
       if (this.sourceFilter) {
         body.filter("term", "source", this.sourceFilter);
       }
-      return body.size(10).from(0).build();
+      return body
+        .size(this.entitiesPage.itemsPerPage)
+        .from(this.entitiesPage.itemsPerPage * (this.entitiesPage.page - 1))
+        .build();
     },
   },
 };
