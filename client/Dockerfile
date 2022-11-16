@@ -8,7 +8,8 @@ RUN apt update && apt -y upgrade && apt -y install curl git
 
 # Downloading and installing NVM
 RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.39.1/install.sh | bash
+RUN npm config set registry http://registry.npmjs.org/ --global
 
 # Installing NVM version, removing node_modules (to force refresh dependencies),
 # .... installing node dependencies and building the product in the dist folder
-CMD /bin/bash -l -c "nvm install $(cat .nvmrc);" \ "nvm use;" && npm install && npm run serve
+CMD /bin/bash -l -c "nvm install $(cat .nvmrc);" \ "nvm use;" && npm install --verbose && npm run serve

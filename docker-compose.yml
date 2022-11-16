@@ -3,6 +3,8 @@ services:
   elasticsearch:
     container_name: es01
     image: docker.elastic.co/elasticsearch/elasticsearch:8.4.3
+    volumes:
+      - elasticsearch:/usr/share/elasticsearch/data:z
     environment:
       ES_JAVA_OPTS: -Xms2g -Xmx2g
       bootstrap.memory_lock: "true"
@@ -50,5 +52,14 @@ services:
     volumes:
       - "./client/:/app/client/"
 
+  splash:
+    image: scrapinghub/splash:latest
+    container_name: sp01
+    ports:
+      - 8050:8050
+
 networks:
   elastic:
+
+volumes:
+  elasticsearch:
