@@ -25,7 +25,7 @@
           custom
           v-slot="{ navigate }"
         >
-          <span @click="navigate"> Librator </span>
+          <v-img :src="logo" height="64" width="64" @click="navigate"></v-img>
         </router-link>
       </div>
 
@@ -50,6 +50,7 @@
 <script>
 import LateralMenuBar from "./LateralMenuBar";
 import MenuBarItems from "./MenuBarItems";
+import logo from "@/assets/logo.png";
 
 export default {
   name: "MenuBar",
@@ -59,6 +60,7 @@ export default {
   },
   data() {
     return {
+      logo,
       app: {
         drawer: false,
       },
