@@ -1,7 +1,7 @@
 <template>
   <v-container v-if="items">
     <v-row>
-      <v-col cols="3" v-if="showFilters" absolute temporary>
+      <v-col cols="3" v-if="showFilters">
         <v-col cols="12">
           <v-row
             ><v-col cols="9">
@@ -100,65 +100,57 @@
       </v-col>
       <v-col :cols="showFilters ? 9 : 12">
         <v-row align="center" justify="space-between" class="mt-4">
-          <v-col cols="12" class="text-center">
-            <v-row>
-              <v-col cols="5">
-                <debounced-text-field
-                  dense
+          <v-col cols="4">
+            <debounced-text-field
+              dense
+              hide-details
+              v-model="search"
+              :label="$t('search')"
+            ></debounced-text-field>
+          </v-col>
+          <v-col cols="2">
+            <v-select
+              class="pt-0 mt-0"
+              v-model="sort"
+              :items="sortOptions"
+              hide-details
+            ></v-select>
+          </v-col>
+          <v-col cols="4">
+            <v-range-slider
+              :value="[minPriceFilter, maxPriceFilter]"
+              class="align-center"
+              hide-details
+              :label="$t('t_book.prop.price')"
+              max="700"
+              @change="updateRange"
+            >
+              <template v-slot:prepend>
+                <v-text-field
+                  v-model="minPriceFilter"
+                  class="mt-0 pt-0"
                   hide-details
-                  v-model="search"
-                  :label="$t('search')"
-                ></debounced-text-field>
-              </v-col>
-              <v-col cols="3">
-                <v-select
-                  class="pt-0 mt-0"
-                  v-model="sort"
-                  :items="sortOptions"
+                  single-line
+                  type="number"
+                  style="width: 60px"
+                ></v-text-field>
+              </template>
+              <template v-slot:append>
+                <v-text-field
+                  v-model="maxPriceFilter"
+                  class="mt-0 pt-0"
                   hide-details
-                ></v-select>
-              </v-col>
-              <v-col cols="3">
-                <v-range-slider
-                  :value="[minPriceFilter, maxPriceFilter]"
-                  class="align-center"
-                  hide-details
-                  :label="$t('t_book.prop.price')"
-                  max="700"
-                  @change="updateRange"
-                >
-                  <template v-slot:prepend>
-                    <v-text-field
-                      v-model="minPriceFilter"
-                      class="mt-0 pt-0"
-                      hide-details
-                      single-line
-                      type="number"
-                      style="width: 60px"
-                    ></v-text-field>
-                  </template>
-                  <template v-slot:append>
-                    <v-text-field
-                      v-model="maxPriceFilter"
-                      class="mt-0 pt-0"
-                      hide-details
-                      single-line
-                      type="number"
-                      style="width: 60px"
-                    ></v-text-field>
-                  </template>
-                </v-range-slider>
-              </v-col>
-              <v-col cols="1" class="text-right">
-                <v-btn
-                  color="primary"
-                  outlined
-                  @click="showFilters = !showFilters"
-                >
-                  <v-icon left dark>mdi-filter</v-icon>
-                </v-btn>
-              </v-col>
-            </v-row>
+                  single-line
+                  type="number"
+                  style="width: 60px"
+                ></v-text-field>
+              </template>
+            </v-range-slider>
+          </v-col>
+          <v-col cols="1" class="text-right">
+            <v-btn color="primary" outlined @click="showFilters = !showFilters">
+              <v-icon left dark>mdi-filter</v-icon>
+            </v-btn>
           </v-col>
         </v-row>
         <v-row>
