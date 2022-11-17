@@ -14,48 +14,87 @@
         <v-row class="mt-4 mb-4">
           <v-col class="ml-6" cols="5">
             <v-row v-if="planetaLibroBook.photo || agapeaBook.photo">
-              <v-img v-if="planetaLibroBook.photo" class="book-image" max-width="300" :src="planetaLibroBook.photo">
+              <v-img
+                v-if="planetaLibroBook.photo"
+                class="book-image"
+                max-width="300"
+                :src="planetaLibroBook.photo"
+              >
               </v-img>
-              <v-img v-else class="book-image" max-width="300" :src="agapeaBook.photo">
+              <v-img
+                v-else
+                class="book-image"
+                max-width="300"
+                :src="agapeaBook.photo"
+              >
               </v-img>
             </v-row>
             <v-row v-else>
-              <v-img class="book-image" max-width="300" src="../../../../public/img/default.png">
+              <v-img
+                class="book-image"
+                max-width="300"
+                src="../../../../public/img/default.png"
+              >
               </v-img>
             </v-row>
             <v-row class="ml-4 mt-8 font-weight-bold">
-              <span>{{ $t('t_book.text.buyOptions') }}</span>
+              <span>{{ $t("t_book.text.buyOptions") }}</span>
             </v-row>
             <v-row v-if="agapeaBook.price && agapeaBook.link">
               <v-col class="ml-8" cols="3">
-                <v-img width="90" height="90" src="../../../../public/img/agapea.png"></v-img>
+                <v-img
+                  width="90"
+                  height="90"
+                  src="../../../../public/img/agapea.png"
+                ></v-img>
               </v-col>
-              <v-col class="price-link mt-3 ml-3 " cols="3">
-                <label class="library-name">{{ $t('t_book.text.agapea') }}</label>
+              <v-col class="price-link mt-3 ml-3" cols="3">
+                <label class="library-name">{{
+                  $t("t_book.text.agapea")
+                }}</label>
                 <label class="mt-2">
-                  {{ agapeaBook.price }} €
+                  {{ agapeaBook.price.toString() }} €
                 </label>
               </v-col>
               <v-col cols="4 ml-7">
-                <v-btn icon color="orange" class="mt-4 buy-button" x-large @click="openWindow(agapeaBook.link)">
+                <v-btn
+                  icon
+                  color="orange"
+                  class="mt-4 buy-button"
+                  x-large
+                  @click="openWindow(agapeaBook.link)"
+                >
                   <v-icon x-large>mdi-cart</v-icon>
                 </v-btn>
               </v-col>
             </v-row>
-            <v-row v-if="planetaLibroBook.price && planetaLibroBook.link" class="mt-6 mb-4">
+            <v-row
+              v-if="planetaLibroBook.price && planetaLibroBook.link"
+              class="mt-6 mb-4"
+            >
               <v-col class="ml-8" cols="3">
-                <v-img width="90" height="90" src="../../../../public/img/planeta.png"></v-img>
+                <v-img
+                  width="90"
+                  height="90"
+                  src="../../../../public/img/planeta.png"
+                ></v-img>
               </v-col>
               <v-col cols="4">
                 <v-row class="price-link ml-3 mt-4">
-                  <label class="library-name">{{ $t('t_book.text.planetalibro') }}</label>
-                  <label class="mt-2">
-                    {{ planetaLibroBook.price }} €
-                  </label>
+                  <label class="library-name">{{
+                    $t("t_book.text.planetalibro")
+                  }}</label>
+                  <label class="mt-2"> {{ planetaLibroBook.price }} € </label>
                 </v-row>
               </v-col>
               <v-col cols="4" align-self="end" class="mb-8">
-                <v-btn icon color="orange" class="mt-4 buy-button" x-large @click="openWindow(planetaLibroBook.link)">
+                <v-btn
+                  icon
+                  color="orange"
+                  class="mt-4 buy-button"
+                  x-large
+                  @click="openWindow(planetaLibroBook.link)"
+                >
                   <v-icon x-large>mdi-cart</v-icon>
                 </v-btn>
               </v-col>
@@ -64,13 +103,21 @@
           <v-col class="mt-6">
             <v-row>
               <span class="book-title">
-                {{ planetaLibroBook.title ? planetaLibroBook.title : agapeaBook.title }}
+                {{
+                  planetaLibroBook.title
+                    ? planetaLibroBook.title
+                    : agapeaBook.title
+                }}
               </span>
             </v-row>
             <v-row>
               <v-col>
                 <span class="book-author">
-                  {{ planetaLibroBook.author ? planetaLibroBook.author : agapeaBook.author }}
+                  {{
+                    planetaLibroBook.author
+                      ? planetaLibroBook.author
+                      : agapeaBook.author.toString()
+                  }}
                 </span>
               </v-col>
             </v-row>
@@ -79,7 +126,11 @@
                 {{ $t("t_book.prop.editorial") }}:
               </v-col>
               <v-col cols="9" md="10">
-                {{ planetaLibroBook.editorial ? planetaLibroBook.editorial : agapeaBook.editorial }}
+                {{
+                  planetaLibroBook.editorial
+                    ? planetaLibroBook.editorial
+                    : agapeaBook.editorial.toString()
+                }}
               </v-col>
             </v-row>
             <v-row>
@@ -88,20 +139,31 @@
               </v-col>
               <v-col cols="9" md="10">
                 {{
-                    planetaLibroBook.isbn ? planetaLibroBook.isbn : agapeaBook.isbn
-                }} </v-col>
+                  planetaLibroBook.isbn
+                    ? planetaLibroBook.isbn
+                    : agapeaBook.isbn
+                }}
+              </v-col>
             </v-row>
             <v-row>
               <v-col cols="3" md="2" class="text-left font-weight-bold">
                 {{ $t("t_book.prop.category") }}:
               </v-col>
               <v-col cols="9" md="10">
-                {{ planetaLibroBook.category ? planetaLibroBook.category : agapeaBook.category }}
+                {{
+                  planetaLibroBook.category
+                    ? planetaLibroBook.category
+                    : agapeaBook.category
+                }}
               </v-col>
             </v-row>
             <v-row class="mt-4" justify="center" cols="9">
               <v-col>
-                {{ planetaLibroBook.summary ? planetaLibroBook.summary : agapeaBook.summary }}
+                {{
+                  planetaLibroBook.summary
+                    ? planetaLibroBook.summary
+                    : agapeaBook.summary.toString()
+                }}
               </v-col>
             </v-row>
           </v-col>
@@ -113,11 +175,10 @@
 </template>
 
 <script>
-import checkInvalidID from "@/common/checkInvalidID";
 import LoadingPage from "@/components/loading-page/LoadingPage.vue";
 import bodyBuilder from "bodybuilder";
 import RepositoryFactory from "@/repositories/RepositoryFactory";
-import mockResponse from "@/common/mock-response"
+import mockResponse from "@/common/mock-response";
 const BookEntityRepository = RepositoryFactory.get("BookEntityRepository");
 
 export default {
@@ -143,29 +204,37 @@ export default {
     this._fetchData(this.$route.params.isbn);
   },
   methods: {
-    async _fetchData(id) {
+    async _fetchData(isbn) {
       this.loading = true;
       let body = bodyBuilder();
-      body.query("match", "isbn", id);
+      body.filter("term", "isbn", isbn);
 
-      //const response = await BookEntityRepository.getAll(query);
+      const response = await BookEntityRepository.getAll(body.build());
 
-      this.planetaLibroBook = mockResponse.hits.hits.filter(el => el._source.source == 'planetadelibros');
+      this.planetaLibroBook = response.hits.hits.filter(
+        (el) => el._source.source == "planetadelibros"
+      );
       if (this.planetaLibroBook.length > 0) {
         this.planetaLibroBook = this.planetaLibroBook[0]._source;
-        this.planetaLibroBook.category = this.planetaLibroBook.category ? this.planetaLibroBook.category.join(', ') : "";
+        this.planetaLibroBook.category = this.planetaLibroBook.category
+          ? this.planetaLibroBook.category.join(", ")
+          : "";
       }
 
-      this.agapeaBook = mockResponse.hits.hits.filter(el => el._source.source == 'agapea');
+      this.agapeaBook = response.hits.hits.filter(
+        (el) => el._source.source == "agapea"
+      );
       if (this.agapeaBook.length > 0) {
         this.agapeaBook = this.agapeaBook[0]._source;
-        this.agapeaBook.category = this.agapeaBook.category ? this.agapeaBook.category.join(', ') : "";
+        this.agapeaBook.category = this.agapeaBook.category
+          ? this.agapeaBook.category.join(", ")
+          : "";
       }
       this.loading = false;
     },
     openWindow(link) {
       window.open(link);
-    }
+    },
   },
 };
 </script>
@@ -176,12 +245,11 @@ export default {
 
 .book-title {
   font-weight: bold;
-  font-size: 2rem;
+  font-size: 1.375rem;
 }
 
-
-.theme--light.v-card>.v-card__text,
-.theme--light.v-card>.v-card__subtitle {
+.theme--light.v-card > .v-card__text,
+.theme--light.v-card > .v-card__subtitle {
   color: black !important;
 }
 
