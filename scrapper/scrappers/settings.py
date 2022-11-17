@@ -14,7 +14,7 @@ SPIDER_MODULES = ['scrappers.spiders']
 NEWSPIDER_MODULE = 'scrappers.spiders'
 
 # Splash Server Endpoint
-SPLASH_URL = 'http://localhost:8050'
+SPLASH_URL = 'http://splash:8050'
 
 # Define the Splash DupeFilter
 DUPEFILTER_CLASS = 'scrapy_splash.SplashAwareDupeFilter'
@@ -25,7 +25,7 @@ USER_AGENT = 'UDC FIC MUEI RIWS' + str(time.time() * 1000)
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
 
-SPLASH_URL = 'http://localhost:8050/'
+SPLASH_URL = 'http://splash:8050/'
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
@@ -80,7 +80,7 @@ ITEM_PIPELINES = {
 }
 
 
-ELASTICSEARCH_SERVERS = 'http://localhost:9200'
+ELASTICSEARCH_SERVERS = 'http://elasticsearch:9200'
 ELASTICSEARCH_INDEX_PREFIX = 'books-'
 #ELASTICSEARCH_TYPE = 'book'
 ELASTICSEARCH_UNIQ_KEY = 'isbn'
