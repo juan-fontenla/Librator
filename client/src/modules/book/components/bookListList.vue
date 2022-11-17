@@ -84,7 +84,6 @@
         <v-col cols="12">
           <v-select
             dense
-            @change="redirectOnFilterChange"
             clearable
             hide-details
             :items="sourceProperty"
@@ -428,7 +427,7 @@ export default {
     getCategories(search) {
       let body = bodyBuilder().aggregation("terms", "category.keyword");
       if (search && search.length > 0) {
-        body = body.query("match", "category", search);
+        body = body.query("query_string", "query", `category:/.*${search}.*/`);
       }
       body = body.size(0).build();
       BookEntityRepository.getAll(body).then(
@@ -542,42 +541,37 @@ export default {
     _buildQueryFromFilters() {
       let body = bodyBuilder();
       if (this.search) {
-        body.query("bool", (b) =>
-          b
-            .orQuery("match", "title", {
-              query: this.search,
-              boost: 0.75,
-            })
-            .orQuery("match", "author", {
-              query: this.search,
-              boost: 0.5,
-            })
-            .orQuery("match", "summary", {
-              query: this.search,
-              boost: 0.25,
-            })
-            .orQuery("match", "editorial", {
-              query: this.search,
-              boost: 0.5,
-            })
-            .orQuery("match", "category", { query: this.search, boost: 0.625 })
-        );
+        body.query("query_string", {
+          query: `*${this.search}*`,
+          fields: [
+            "title^5",
+            "author^2",
+            "category^1.5",
+            "editorial^0.5",
+            "summary",
+            "isbn",
+          ],
+          tie_breaker: 1,
+        });
       }
       body.query("range", "price", {
-        gte: this.minPriceFilter,
-        lte: this.maxPriceFilter,
+        gte: this.minPriceFilter || 0,
+        lte: this.maxPriceFilter || 0,
       });
       if (this.titleFilter) {
-        body.filter("match", "title", { query: this.titleFilter, boost: 1.5 });
+        body.query("match_phrase", "title", {
+          query: this.titleFilter,
+          boost: 1.5,
+        });
       }
       if (this.authorFilter) {
-        body.filter("match", "author", this.authorFilter);
+        body.query("match_phrase", "author", this.authorFilter);
       }
       if (this.editorialFilter) {
-        body.filter("match", "editorial", this.editorialFilter);
+        body.query("match_phrase", "editorial", this.editorialFilter);
       }
       if (this.categoryFilter) {
-        body.query("match", "category", {
+        body.query("match_phrase", "category", {
           query: this.categoryFilter,
           boost: 1.25,
         });
