@@ -27,8 +27,13 @@
     },
     "headers": {
       "bookList": "Book List",
-      "bookFormDetail": "Book Form Detail",
+      "bookFormDetail": "Detalle do libro",
       "bookForm": "Book Form"
+    },
+    "text": {
+      "buyOptions": "Opcións de compra:",
+      "agapea": "Agapea",
+      "planetalibro": "PlanetadeLibros"
     }
   }
 }
