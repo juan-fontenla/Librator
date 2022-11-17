@@ -74,17 +74,25 @@ class AgapeaSpider(CrawlSpider):
                 )
             books_links = response.css('.info > h4 >a::attr(href)').extract()
             for url in response.css('.nav-list > li > a::attr(href)').extract():
+                 if (response.meta["books"] is not None):
+                    response.meta["books"].append(books_links)
+                else:
+                    response.meta["books"] = []
                 yield SplashRequest(
                     self.start_urls[0]+ url, callback = self.parse_book, endpoint='execute',
                     args={'wait': 0.5, 'lua_source': self.script},
-                    meta = {'books': response.meta["books"].append(books_links)}
+                    meta = {'books': response.meta["books"]}
                 )
 
             for url in response.css('.pull-right >ul > li > a::attr(href)').extract():
+                if (response.meta["books"] is not None):
+                    response.meta["books"].append(books_links)
+                else:
+                    response.meta["books"] = []
                 yield SplashRequest(
                     self.start_urls[0]+ url, callback = self.parse_book, endpoint='execute',
                     args={'wait': 0.5, 'lua_source': self.script},
-                    meta = {'books': response.meta["books"].append(books_links)}
+                    meta = {'books': response.meta["books"]}
                 )   
 
         for books in response.meta["books"]:

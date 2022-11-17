@@ -87,6 +87,7 @@ class PlanetadelibrosSpider(CrawlSpider):
 
         isbn = response.xpath(
             '//span[@itemprop="isbn"]/text()').extract_first()
+        isbn = isbn.replace("-", "")
 
         if (isbn is not None):
             item = BookItem()
