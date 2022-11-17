@@ -1,183 +1,230 @@
 <template>
   <v-container v-if="items">
-    <v-row align="center" justify="space-between" class="mt-4">
-      <v-col cols="9" class="text-center">
-        <v-row>
-          <v-col cols="8">
-            <debounced-text-field
-              dense
-              hide-details
-              v-model="search"
-              :label="$t('search')"
-            ></debounced-text-field>
-          </v-col>
-          <v-col cols="4">
-            <v-select
-              class="pt-0 mt-0"
-              v-model="sort"
-              :items="sortOptions"
-              hide-details
-            ></v-select>
-          </v-col>
-        </v-row>
-      </v-col>
-      <v-col cols="3" class="text-right">
-        <v-btn color="primary" outlined @click="showFilters = !showFilters">
-          <v-icon left dark>mdi-magnify</v-icon>
-          <span>
-            {{ showFilters ? $t("hideFilters") : $t("showFilters") }}
-          </span>
-          <v-icon right dark v-if="showFilters">mdi-chevron-up</v-icon>
-          <v-icon right dark v-else>mdi-chevron-down</v-icon>
-        </v-btn>
-      </v-col>
-    </v-row>
-    <v-row align="center" v-show="showFilters" justify="space-between">
-      <v-col cols="12" md="3">
-        <debounced-text-field
-          dense
-          hide-details
-          v-model="titleFilter"
-          :label="$t('t_book.prop.title')"
-        ></debounced-text-field>
-      </v-col>
-      <v-col cols="12" md="3">
-        <debounced-text-field
-          dense
-          hide-details
-          v-model="authorFilter"
-          :label="$t('t_book.prop.author')"
-        ></debounced-text-field>
-      </v-col>
-      <v-col cols="12" md="3">
-        <debounced-text-field
-          dense
-          hide-details
-          v-model="editorialFilter"
-          :label="$t('t_book.prop.editorial')"
-        ></debounced-text-field>
-      </v-col>
-      <v-col cols="12" md="3">
-        <debounced-text-field
-          dense
-          hide-details
-          v-model="isbnFilter"
-          :label="$t('t_book.prop.isbn')"
-        ></debounced-text-field>
-      </v-col>
-      <v-col cols="12" md="4">
-        <autocomplete
-          dense
-          hide-details
-          :items="categoryItems"
-          item-text="key"
-          item-value="key"
-          v-model="categoryFilter"
-          :label="$t('t_book.prop.category')"
-          @update:search-input="getCategories"
-        ></autocomplete>
-      </v-col>
-      <v-col cols="12" md="4">
-        <v-select
-          dense
-          @change="redirectOnFilterChange"
-          clearable
-          hide-details
-          :items="sourceProperty"
-          :item-text="(item) => $t(item.text)"
-          item-value="value"
-          :menu-props="{ offsetY: true }"
-          v-model="sourceFilter"
-          :label="$t('t_book.prop.source')"
-        >
-        </v-select>
-      </v-col>
-      <v-col cols="12" md="4">
-        <v-range-slider
-          :value="[minPriceFilter, maxPriceFilter]"
-          class="align-center"
-          hide-details
-          :label="$t('t_book.prop.price')"
-          max="700"
-          @change="updateRange"
-        >
-          <template v-slot:prepend>
-            <v-text-field
-              v-model="minPriceFilter"
-              class="mt-0 pt-0"
-              hide-details
-              single-line
-              type="number"
-              style="width: 60px"
-            ></v-text-field>
-          </template>
-          <template v-slot:append>
-            <v-text-field
-              v-model="maxPriceFilter"
-              class="mt-0 pt-0"
-              hide-details
-              single-line
-              type="number"
-              style="width: 60px"
-            ></v-text-field>
-          </template>
-        </v-range-slider>
-      </v-col>
-    </v-row>
-    <v-row v-if="items && items.length > 0">
-      <v-col
-        class="mb-12"
-        v-for="book in items"
-        cols="12"
-        md="4"
-        lg="3"
-        :key="book.isbn"
-      >
-        <v-hover v-slot="{ hover }">
-          <v-card
-            :elevation="hover ? 16 : 0"
-            flat
-            class="{ 'on-hover': hover }"
-            @click="entityDetail(book)"
+    <v-row>
+      <v-col cols="3" v-if="showFilters" absolute temporary>
+        <v-col cols="12">
+          <v-row
+            ><v-col cols="9">
+              <span class="text--h6">
+                {{ $t("filters") }}
+              </span>
+            </v-col>
+            <v-col cols="3" class="text-right">
+              <v-btn icon @click="showFilters = false"
+                ><v-icon>close</v-icon></v-btn
+              >
+            </v-col></v-row
           >
-            <v-row>
-              <v-col class="text-center">
-                <v-img
-                  height="200"
-                  contain
-                  :src="book.photo"
-                  :lazy-src="bookPng"
-                ></v-img>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col class="text-center overline">
-                {{ parseBookTitle(book.title) }}
-              </v-col>
-            </v-row>
-          </v-card>
-        </v-hover>
+        </v-col>
+        <v-col cols="12">
+          <autocomplete
+            dense
+            hide-details
+            :items="titleItems"
+            item-text="key"
+            item-value="key"
+            v-model="titleFilter"
+            :label="$t('t_book.prop.title')"
+            outlined
+            @update:search-input="getTitles"
+          ></autocomplete>
+        </v-col>
+        <v-col cols="12">
+          <autocomplete
+            dense
+            hide-details
+            :items="authorItems"
+            item-text="key"
+            item-value="key"
+            v-model="authorFilter"
+            :label="$t('t_book.prop.author')"
+            outlined
+            @update:search-input="getAuthors"
+          ></autocomplete>
+        </v-col>
+        <v-col cols="12">
+          <autocomplete
+            dense
+            hide-details
+            :items="editorialItems"
+            item-text="key"
+            item-value="key"
+            v-model="editorialFilter"
+            :label="$t('t_book.prop.editorial')"
+            outlined
+            @update:search-input="getEditorials"
+          ></autocomplete>
+        </v-col>
+        <v-col cols="12">
+          <autocomplete
+            dense
+            hide-details
+            :items="isbnItems"
+            item-text="key"
+            item-value="key"
+            v-model="isbnFilter"
+            :label="$t('t_book.prop.isbn')"
+            outlined
+            @update:search-input="getIsbns"
+          ></autocomplete>
+        </v-col>
+        <v-col cols="12">
+          <autocomplete
+            dense
+            hide-details
+            :items="categoryItems"
+            item-text="key"
+            item-value="key"
+            v-model="categoryFilter"
+            :label="$t('t_book.prop.category')"
+            outlined
+            @update:search-input="getCategories"
+          ></autocomplete>
+        </v-col>
+        <v-col cols="12">
+          <v-select
+            dense
+            @change="redirectOnFilterChange"
+            clearable
+            hide-details
+            :items="sourceProperty"
+            :item-text="(item) => $t(item.text)"
+            item-value="value"
+            :menu-props="{ offsetY: true }"
+            outlined
+            v-model="sourceFilter"
+            :label="$t('t_book.prop.source')"
+          >
+          </v-select>
+        </v-col>
       </v-col>
-      <v-col cols="12">
-        <v-row>
-          <v-col class="text-center" cols="6">
-            <v-btn block :disabled="entitiesPage.page <= 1" @click="prevPage">
-              <v-icon>mdi-chevron-left</v-icon>
-              {{ $t("$vuetify.pagination.ariaLabel.previous") }}
-            </v-btn>
-          </v-col>
-          <v-col class="text-center" cols="6">
-            <v-btn block :disabled="!hasNext" @click="nextPage">
-              {{ $t("$vuetify.pagination.ariaLabel.next") }}
-              <v-icon>mdi-chevron-right</v-icon>
-            </v-btn>
+      <v-col :cols="showFilters ? 9 : 12">
+        <v-row align="center" justify="space-between" class="mt-4">
+          <v-col cols="12" class="text-center">
+            <v-row>
+              <v-col cols="5">
+                <debounced-text-field
+                  dense
+                  hide-details
+                  v-model="search"
+                  :label="$t('search')"
+                ></debounced-text-field>
+              </v-col>
+              <v-col cols="3">
+                <v-select
+                  class="pt-0 mt-0"
+                  v-model="sort"
+                  :items="sortOptions"
+                  hide-details
+                ></v-select>
+              </v-col>
+              <v-col cols="3">
+                <v-range-slider
+                  :value="[minPriceFilter, maxPriceFilter]"
+                  class="align-center"
+                  hide-details
+                  :label="$t('t_book.prop.price')"
+                  max="700"
+                  @change="updateRange"
+                >
+                  <template v-slot:prepend>
+                    <v-text-field
+                      v-model="minPriceFilter"
+                      class="mt-0 pt-0"
+                      hide-details
+                      single-line
+                      type="number"
+                      style="width: 60px"
+                    ></v-text-field>
+                  </template>
+                  <template v-slot:append>
+                    <v-text-field
+                      v-model="maxPriceFilter"
+                      class="mt-0 pt-0"
+                      hide-details
+                      single-line
+                      type="number"
+                      style="width: 60px"
+                    ></v-text-field>
+                  </template>
+                </v-range-slider>
+              </v-col>
+              <v-col cols="1" class="text-right">
+                <v-btn
+                  color="primary"
+                  outlined
+                  @click="showFilters = !showFilters"
+                >
+                  <v-icon left dark>mdi-filter</v-icon>
+                </v-btn>
+              </v-col>
+            </v-row>
           </v-col>
         </v-row>
-      </v-col>
-    </v-row>
-    <v-row v-else>
-      <v-col class="text-center h4">
-        <span>{{ $t("no-data.no-results") }}</span>
+        <v-row>
+          <v-col>
+            <v-row v-if="items && items.length > 0">
+              <v-col
+                class="mb-12"
+                v-for="book in items"
+                cols="12"
+                md="4"
+                lg="3"
+                :key="book.isbn"
+              >
+                <v-hover v-slot="{ hover }">
+                  <v-card
+                    :elevation="hover ? 16 : 0"
+                    flat
+                    class="{ 'on-hover': hover }"
+                    @click="entityDetail(book)"
+                  >
+                    <v-row>
+                      <v-col class="text-center">
+                        <v-img
+                          height="200"
+                          contain
+                          :src="book.photo"
+                          :lazy-src="bookPng"
+                        ></v-img>
+                      </v-col>
+                    </v-row>
+                    <v-row>
+                      <v-col class="text-center overline">
+                        {{ parseBookTitle(book.title) }}
+                      </v-col>
+                    </v-row>
+                  </v-card>
+                </v-hover>
+              </v-col>
+              <v-col cols="12">
+                <v-row>
+                  <v-col class="text-center" cols="6">
+                    <v-btn
+                      block
+                      :disabled="entitiesPage.page <= 1"
+                      @click="prevPage"
+                    >
+                      <v-icon>mdi-chevron-left</v-icon>
+                      {{ $t("$vuetify.pagination.ariaLabel.previous") }}
+                    </v-btn>
+                  </v-col>
+                  <v-col class="text-center" cols="6">
+                    <v-btn block :disabled="!hasNext" @click="nextPage">
+                      {{ $t("$vuetify.pagination.ariaLabel.next") }}
+                      <v-icon>mdi-chevron-right</v-icon>
+                    </v-btn>
+                  </v-col>
+                </v-row>
+              </v-col>
+            </v-row>
+            <v-row v-else>
+              <v-col class="text-center h4">
+                <span>{{ $t("no-data.no-results") }}</span>
+              </v-col>
+            </v-row>
+          </v-col>
+        </v-row>
       </v-col>
     </v-row>
   </v-container>
@@ -211,7 +258,11 @@ export default {
     return {
       bookPng,
       items: [],
+      authorItems: [],
       categoryItems: [],
+      editorialItems: [],
+      isbnItems: [],
+      titleItems: [],
       search: null,
       sort: null,
       sortOptions: [
@@ -347,7 +398,11 @@ export default {
     if (this.$route.query.sort) {
       this.sort = this.$route.query.sort;
     }
+    this.getAuthors();
     this.getCategories();
+    this.getEditorials();
+    this.getIsbns();
+    this.getTitles();
     this.getItems();
   },
   methods: {
@@ -366,17 +421,63 @@ export default {
       this.entitiesPage.page--;
       this.redirectOnTableChange();
     },
+    getAuthors(search) {
+      let body = bodyBuilder().aggregation("terms", "author.keyword");
+      if (search && search.length > 0) {
+        body = body.query("match", "author", search);
+      }
+      body = body.size(0).build();
+      BookEntityRepository.getAll(body).then(
+        (res) =>
+          (this.authorItems =
+            res.aggregations["agg_terms_author.keyword"].buckets)
+      );
+    },
     getCategories(search) {
       let body = bodyBuilder().aggregation("terms", "category.keyword");
       if (search && search.length > 0) {
         body = body.query("match", "category", search);
       }
       body = body.size(0).build();
-      console.log(body);
       BookEntityRepository.getAll(body).then(
         (res) =>
           (this.categoryItems =
             res.aggregations["agg_terms_category.keyword"].buckets)
+      );
+    },
+    getEditorials(search) {
+      let body = bodyBuilder().aggregation("terms", "editorial.keyword");
+      if (search && search.length > 0) {
+        body = body.query("match", "editorial", search);
+      }
+      body = body.size(0).build();
+      BookEntityRepository.getAll(body).then(
+        (res) =>
+          (this.editorialItems =
+            res.aggregations["agg_terms_editorial.keyword"].buckets)
+      );
+    },
+    getIsbns(search) {
+      let body = bodyBuilder().aggregation("terms", "isbn.keyword");
+      if (search && search.length > 0) {
+        body = body.query("match", "isbn", search);
+      }
+      body = body.size(0).build();
+      BookEntityRepository.getAll(body).then(
+        (res) =>
+          (this.isbnItems = res.aggregations["agg_terms_isbn.keyword"].buckets)
+      );
+    },
+    getTitles(search) {
+      let body = bodyBuilder().aggregation("terms", "title.keyword");
+      if (search && search.length > 0) {
+        body = body.query("match", "title", search);
+      }
+      body = body.size(0).build();
+      BookEntityRepository.getAll(body).then(
+        (res) =>
+          (this.titleItems =
+            res.aggregations["agg_terms_title.keyword"].buckets)
       );
     },
     getItems() {
@@ -475,13 +576,13 @@ export default {
         lte: this.maxPriceFilter,
       });
       if (this.titleFilter) {
-        body.query("match", "title", { query: this.titleFilter, boost: 1.5 });
+        body.filter("match", "title", { query: this.titleFilter, boost: 1.5 });
       }
       if (this.authorFilter) {
-        body.query("match", "author", this.authorFilter);
+        body.filter("match", "author", this.authorFilter);
       }
       if (this.editorialFilter) {
-        body.query("match", "editorial", this.editorialFilter);
+        body.filter("match", "editorial", this.editorialFilter);
       }
       if (this.categoryFilter) {
         body.query("match", "category", {

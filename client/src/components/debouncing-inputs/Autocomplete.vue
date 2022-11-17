@@ -18,6 +18,7 @@
     :label="label"
     :solo="solo"
     :multiple="multiple"
+    :outlined="outlined"
     :rules="rules"
     :autocomplete="autocomplete"
   >
@@ -96,6 +97,11 @@ export default {
       required: true,
     },
     loading: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    outlined: {
       type: Boolean,
       required: false,
       default: false,

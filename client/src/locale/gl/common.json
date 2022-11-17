@@ -64,6 +64,7 @@
     },
     "defaultServerErrorMessage": "Produciuse un erro inesperado"
   },
+  "filters": "Filtros",
   "languages": {
     "en": "Inglés",
     "es": "Español",
